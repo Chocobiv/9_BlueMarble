@@ -27,7 +27,7 @@ public class MainView {
 
 	// 1. 게임 실행 메소드
 	public void play() {
-		goldKeyList(whoIsTurn);
+		//goldKeyList(whoIsTurn);
 		// 플레이어 등록
 		addPlayer();
 		while (count != 31) { // count에 따라서 무한반복 종료
