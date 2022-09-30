@@ -21,17 +21,10 @@ public class PlayerDAO {
 		}
 	}
 
-	public static PlayerDAO getInstance() {
-		return dao;
-	}
+	public static PlayerDAO getInstance() { return dao; }
 
-	// **NationDAO로 이동 필요**
-	// 전체 나라 가져오는 메소드
-	public ArrayList<NationDTO> getNations() {
-		return null;
-	}
 
-	// 플레이어 등록 메소드
+	// 비아(9/29) - 플레이어 등록 메소드
 	public boolean addPlayer(String name, int p_turn) {
 		String sql = "insert into player values(null,?,600000,?,1)"; // SQL 작성
 		try {
@@ -46,7 +39,7 @@ public class PlayerDAO {
 		return false;
 	}
 
-	// 누구 턴인지 가져오는 로직
+	// 비아(9/29) - 누구 턴인지 가져오는 로직
 	public int getWhoIsTurn() {
 		String sql = "select p_no from player where p_turn = 0";
 		int result = 0;
@@ -58,12 +51,12 @@ public class PlayerDAO {
 			}
 			return result;
 		} catch (Exception e) {
-			System.out.println("턴 출력 오류" + e);
+			System.out.println("경고) 턴 출력 오류" + e);
 		}
 		return result;
 	}
 
-	// **플레이어의 현재 위치 가져오는 메소드**
+	// 비아(9/29) - 플레이어의 현재 위치 가져오는 메소드
 	public int getLocation(int player) {
 		String sql = "select b_no from player where p_no = ?"; // SQL 작성
 		int location = 0;
@@ -80,7 +73,7 @@ public class PlayerDAO {
 		return location;
 	}
 
-	// 말 이동 메소드
+	// 비아(9/29) - 말 이동 메소드
 	public boolean move(int player, int num) {
 		String sql = "update player set b_no = ? where p_no = ?"; // SQL 작성
 		try {
@@ -95,7 +88,7 @@ public class PlayerDAO {
 		return false;
 	}
 
-	// **플레이어의 턴 수 교체 로직**
+	// 비아(9/29) - 플레이어의 턴 수 교체 로직
 	public boolean changeTurn(int player) {
 		String sql1 = "update player set p_turn = 0 where p_turn = 1"; // SQL 작성
 		String sql2 = "update player set p_turn = 1 where p_no = ?"; // SQL 작성
@@ -115,29 +108,68 @@ public class PlayerDAO {
 		}
 		return false;
 	}
-	   //수현 - 플레이어 자산 가져오기 
-	   public int getPlayerMoney(int player) {
-	      String sql="select p_money from player where p_no=?";
-	      int p_money=0;
-	      try {
-	         ps=con.prepareStatement(sql);
-	         ps.setInt(1, player);
-	         rs=ps.executeQuery();
-	         if(rs.next()) {
-	            p_money=rs.getInt(1);
-	         }
-	         return p_money;
-	      } catch (Exception e) {System.out.println("플레이어 자산 확인 오류 " +e);}
-	      return 0;
-	   }
-	   
-	   
-	// 통행료 얻기 메소드
-	boolean takeTollFee(int player, int tollFee) {
+
+	// 유정 - 9. 월급 및 상금 지급 메소드 [U] 10만원+
+	public boolean getPaid(int player, int pay) {
+		String sql = "update player set p_money = p_money+? where p_no = ? ";
+
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, pay);
+			ps.setInt(2, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("월급 업데이트 오류" + e);
+		}
 		return false;
 	}
 
-	// 전체 플레이어 삭제 메소드
+	// 유정 - 10. 현금 지불
+	public boolean payCash(int player, int cash) {
+		String sql = "update player set p_money = p_money-? where p_no = ? ";
+
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, cash);
+			ps.setInt(2, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("돈 지불 업데이트 오류" + e);
+		}
+		return false;
+	}
+
+	// 수현 - 플레이어 자산 가져오기 //NationDAO 에서 이동시킴!!
+	public int getPlayerMoney(int player) {
+		String sql = "select p_money from player where p_no=?";
+		int p_money = 0;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				p_money = rs.getInt(1);
+			}
+			return p_money;
+		} catch (Exception e) {
+			System.out.println("플레이어 자산 확인 오류 " + e);
+		}
+		return 0;
+	}
+
+	// 통행료 내기 메소드
+	public boolean payTollFee(int player, int land_no) {
+		return false;
+	}
+
+	// 통행료 얻기 메소드
+	public boolean takeTollFee(int player, int tollFee) {
+		return false;
+	}
+
+	// 비아(9/29) - 전체 플레이어 삭제 메소드
 	public boolean deleteP() {
 		String sql1 = "delete from player"; // SQL 작성
 		String sql2 = "ALTER TABLE player AUTO_INCREMENT = 1"; // auto_increment 초기화

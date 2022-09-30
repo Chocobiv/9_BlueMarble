@@ -8,8 +8,7 @@ import model.DTO.NationDTO;
 
 public class NationController {
 	PlayerController pCon = new PlayerController();
-	
-	
+
 	// 전체 나라 가져오는 로직
 	public ArrayList<NationDTO> getNations() {
 		return NationDAO.getInstance().getNations();
@@ -20,22 +19,15 @@ public class NationController {
 		return NationDAO.getInstance().isExistLandlord(n_no);
 	}
 
+	// 수현(9/30) - n_no맞는 땅정보 한번에 가져오기 위한 메소드 생성
+	public NationDTO getNationInfo(int n_no) {
+		return NationDAO.getInstance().getNationInfo(n_no);
+	}
+
 	// 수현 - 땅 구매 로직
 	public boolean buyLand(int player, int n_no, int n_price) {
 		return NationDAO.getInstance().buyLand(player, n_no, n_price);
 	}
-
-	//수현 - 메소드 생성(9/29)  -> 땅 가격 전달 메소드
-	public int getLandPrice(int n_no) {
-		return NationDAO.getInstance().getLandPrice(n_no);
-	}
-	
-	//수현 메소드생성(9/29) - 땅 이름 가져오기
-	public String getLandName(int n_no) {
-		return NationDAO.getInstance().getLandName(n_no);
-		
-	}
-	
 
 	// 특정 땅의 세금비용을 가져오는 로직
 	int getTax(int n_no) {

@@ -4,8 +4,8 @@ create database team;
 use team;
 
 drop table if exists board;
-create table board(								-- 판
-	b_no int primary key auto_increment, 
+create table board(                        -- 판
+   b_no int primary key auto_increment, 
     n_no int null
     
 );
@@ -16,13 +16,13 @@ create table player(
    p_name varchar(10) ,
     p_money int , 
     p_turn int,
-    b_no int,				-- 플레이어의 현재 위치
+    b_no int,            -- 플레이어의 현재 위치
     foreign key ( b_no ) references board ( b_no )
 );
 
 
 drop table if exists nation;
-create table nation(							-- 플레이어가 소유한 나라
+create table nation(                     -- 플레이어가 소유한 나라
    n_no int primary key auto_increment, 
     n_name varchar(15) , 
     n_price int null, 
@@ -42,7 +42,7 @@ create table nation(							-- 플레이어가 소유한 나라
             insert into nation values ( null , "타이베이" , 50000 , 20000 , null );
             insert into nation values ( null , "베이징" , 80000 , 40000 , null);
             insert into nation values ( null , "마닐라" , 80000  , 40000 , null);
-            insert into nation values ( null , "제주도" , 200000 , 300000 , null );
+            insert into nation values ( null , "제주도" , 300000 , 100000 , null );
             
 
             insert into nation values ( null , "황금열쇠" , null , null , null );
@@ -57,7 +57,7 @@ create table nation(							-- 플레이어가 소유한 나라
             -- 주로 초기 대항해시대 관련 도시 초록색 구역
             insert into nation values ( null , "상파울루" , 240000  , 20000 , null);
             insert into nation values ( null , "시드니" , 240000 , 20000 , null );
-            insert into nation values ( null , "부산" , 500000 , 600000 , null );
+            insert into nation values ( null , "부산" , 200000 , 100000 , null );
             insert into nation values ( null , "하와이" , 260000  , 22000 , null );
             
                 
@@ -66,7 +66,7 @@ create table nation(							-- 플레이어가 소유한 나라
                 insert into nation values ( null , "싱가포르" , 100000 , 6000 , null );
                 insert into nation values ( null , "베를린" , 160000  , 12000 , null);
             insert into nation values ( null , "리스본" , 260000 , 22000, null );
-            insert into nation values ( null , "서울" , 500000 , 500000 , null );
+            insert into nation values ( null , "서울" , 300000 , 100000 , null );
 
 select * from nation;
 
@@ -97,3 +97,25 @@ alter table board add foreign key ( n_no ) references nation ( n_no );
 
 DESCRIBE board;
 DESCRIBE gold_key;
+
+
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('1', '1');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('2', '2');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('3', '3');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('4', '4');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('5', '5');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('6', '6');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('7', '7');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('8', '8');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('9', '9');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('10', '10');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('11', '11');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('12', '12');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('13', '13');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('14', '14');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('15', '15');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('16', '16');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('17', '17');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('18', '18');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('19', '19');
+INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('20', '20');
