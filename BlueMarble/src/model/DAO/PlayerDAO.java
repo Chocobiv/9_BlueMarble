@@ -15,7 +15,7 @@ public class PlayerDAO {
 
 	private PlayerDAO() {
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team", "root", "1234");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team", "root", "123456");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -141,7 +141,7 @@ public class PlayerDAO {
 		return false;
 	}
 
-	// 수현 - 플레이어 자산 가져오기 //NationDAO 에서 이동시킴!!
+	// 수현 - 플레이어 자산 가져오기
 	public int getPlayerMoney(int player) {
 		String sql = "select p_money from player where p_no=?";
 		int p_money = 0;
@@ -153,19 +153,33 @@ public class PlayerDAO {
 				p_money = rs.getInt(1);
 			}
 			return p_money;
-		} catch (Exception e) {
-			System.out.println("플레이어 자산 확인 오류 " + e);
-		}
+		} catch (Exception e) {System.out.println("플레이어 자산 확인 오류 " + e);}
 		return 0;
 	}
 
-	// 통행료 내기 메소드
-	public boolean payTollFee(int player, int land_no) {
+	// 수현 - 통행료 내기 메소드
+	public boolean payTollFee(int player, int n_toll_fee) {
+		String sql="update player set p_money= p_money-? where p_no=?";
+		try {
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, n_toll_fee);
+			ps.setInt(2, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {System.out.println("통행료 지불 오류 " + e);}
 		return false;
 	}
 
-	// 통행료 얻기 메소드
-	public boolean takeTollFee(int player, int tollFee) {
+	// 수현 - 통행료 얻기 메소드
+	public boolean takeTollFee(int player, int n_toll_fee) {
+		String sql="update player set p_money= p_money+? where p_no != ?";
+		try {
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, n_toll_fee);
+			ps.setInt(2, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {System.out.println("통행료 입금 오류 " + e);}
 		return false;
 	}
 

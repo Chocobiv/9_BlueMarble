@@ -45,15 +45,16 @@ public class PlayerController {
 		return PlayerDAO.getInstance().changeTurn(player);
 	}
 
-	// 수현(9/30) 통행료 내기 로직
-	public boolean payTollFee(int player, int land_no) {
-		PlayerDAO.getInstance().takeTollFee(player, land_no);
-		return false;
+	// 수현 - 통행료 내기 로직
+	public boolean payTollFee(int player, int n_toll_fee) {//매개변수 통행료로 변경
+		return PlayerDAO.getInstance().payTollFee(player, n_toll_fee);
+	
 	}
 
-	// 수현(9/30) 통행료 얻기 로직
-	public boolean takeTollFee(int player, int tollFee) {
-		return false;
+	// 수현 - 통행료 얻기 로직
+	public boolean takeTollFee(int player, int n_toll_fee) {
+		return PlayerDAO.getInstance().takeTollFee(player, n_toll_fee);
+		
 	}
 
 	// 월급 및 상금 지급 로직 // 유정

@@ -14,7 +14,7 @@ public class NationDAO {
 
 	private NationDAO() {
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team", "root", "1234");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team", "root", "123456");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
