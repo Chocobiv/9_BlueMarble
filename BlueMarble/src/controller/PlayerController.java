@@ -1,7 +1,10 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.DAO.NationDAO;
 import model.DAO.PlayerDAO;
+import model.DTO.NationDTO;
 import model.DTO.PlayerDTO;
 import view.MainView;
 
@@ -68,11 +71,17 @@ public class PlayerController {
 		return PlayerDAO.getInstance().payCash(player, cash);
 	}
 
-	// 수현 - 메소드 생성(9/29) - 플레이어 자산 가져오기
+	// 수현 - 플레이어 자산 가져오기
 	public int getPlayerMoney(int player) {
 		return PlayerDAO.getInstance().getPlayerMoney(player);
 	}
+	
+	// 수현 - 플레이어가 소유한 땅 정보 가져오기(매각위해)
+	public ArrayList<NationDTO> getPlayerLand(int player) {
+			return PlayerDAO.getInstance().getPlayerLand(player);
+	}
 
+	
 	// 비아 - 전체 플레이어 삭제 로직
 	public boolean deleteP() {
 		return PlayerDAO.getInstance().deleteP();

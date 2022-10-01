@@ -14,7 +14,7 @@ public class NationDAO {
 
 	private NationDAO() {
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team", "root", "123456");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team", "root", "1234");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -97,4 +97,47 @@ public class NationDAO {
 		}
 		return false;
 	}
+	
+	// 수현 - 땅 매각 정보 업데이트
+	public boolean saleLand(int player ,int n_no, int n_price) {
+		String sql="update nation set p_no=null where n_no=? ";
+		String sql2="update player set p_money=p_money+? where p_no=?";
+		try {
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, n_no);
+			ps.executeUpdate();
+	
+			ps=con.prepareStatement(sql2);
+			ps.setInt(1, n_price);
+			ps.setInt(2, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {System.out.println("땅 매각 과정 오류 " +e);}
+		return false;
+	}
+	
+	// 수현 - 올림픽 개최 로직
+	public boolean hostingOlympics(int n_no) {
+		String sql="update nation set n_toll_fee=n_toll_fee*2 where n_no=?";
+		try {
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, n_no);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {System.out.println("올림픽 개막 오류 " +e);}
+		return false;
+	}
+
+	// 수현 - 올림픽 폐막 로직
+	public boolean closingOlympics(int n_no) {
+		String sql="update nation set n_toll_fee=n_toll_fee/2 where n_no=? ";
+		try {
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, n_no);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {System.out.println("올림픽 폐막 오류 " +e);}
+		return false;
+	}
+	
 }

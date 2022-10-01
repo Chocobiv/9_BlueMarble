@@ -15,7 +15,7 @@ public class PlayerDAO {
 
 	private PlayerDAO() {
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team", "root", "123456");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team", "root", "1234");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -182,6 +182,26 @@ public class PlayerDAO {
 		} catch (Exception e) {System.out.println("통행료 입금 오류 " + e);}
 		return false;
 	}
+
+	// 수현 - 플레이어가 소유한 땅 정보 출력 메소드
+	public ArrayList<NationDTO> getPlayerLand(int player) {
+		String sql="select * from nation where p_no=?";
+		ArrayList<NationDTO> list = new ArrayList<>();
+		try {
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, player);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				NationDTO dto = new NationDTO(
+						rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)
+						);
+				list.add(dto);
+			}
+			return list;
+		} catch (Exception e) {System.out.println("플레이어 소유한 땅 정보 출력 오류 " + e);}
+		return list;
+	}
+	
 
 	// 비아(9/29) - 전체 플레이어 삭제 메소드
 	public boolean deleteP() {
