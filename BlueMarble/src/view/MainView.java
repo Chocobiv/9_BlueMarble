@@ -27,7 +27,7 @@ public class MainView {
 
 	// 1. 게임 실행 메소드
 	public void play() {
-		//goldKeyList(whoIsTurn);
+		// goldKeyList(whoIsTurn);
 		// 플레이어 등록
 		addPlayer();
 		while (count != 31) { // count에 따라서 무한반복 종료
@@ -46,12 +46,9 @@ public class MainView {
 				whoIsTurn = 2;
 			else if (whoIsTurn == 2)
 				whoIsTurn = 1;
-			
-			
-			//황금열쇠 사용
+
+			// 황금열쇠 사용
 			useGoldKey(whoIsTurn, 4);
-			
-			
 
 			// **테스트 편의를 위해서 만듦, 나중에 수정할 것**
 			System.out.print("안내) 게임 끝낼까요?");
@@ -97,8 +94,10 @@ public class MainView {
 		int count = 0;
 		while (count < 2) {
 			System.out.print("..");
-			try { Thread.sleep(1000); } 
-			catch (Exception e) { }
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+			}
 			count++;
 		}
 		System.out.println();
@@ -106,24 +105,24 @@ public class MainView {
 		Random random = new Random(); // Random 이용
 		int dice = random.nextInt(6) + 1; // 1~6사이의 주사위
 		switch (dice) {
-			case 1:
-				System.out.println("주사위 : ⚀ " + dice);
-				break;
-			case 2:
-				System.out.println("주사위 : ⚁ " + dice);
-				break;
-			case 3:
-				System.out.println("주사위 : ⚂ " + dice);
-				break;
-			case 4:
-				System.out.println("주사위 : ⚃ " + dice);
-				break;
-			case 5:
-				System.out.println("주사위 : ⚄ " + dice);
-				break;
-			case 6:
-				System.out.println("주사위 : ⚅ " + dice);
-				break;
+		case 1:
+			System.out.println("주사위 : ⚀ " + dice);
+			break;
+		case 2:
+			System.out.println("주사위 : ⚁ " + dice);
+			break;
+		case 3:
+			System.out.println("주사위 : ⚂ " + dice);
+			break;
+		case 4:
+			System.out.println("주사위 : ⚃ " + dice);
+			break;
+		case 5:
+			System.out.println("주사위 : ⚄ " + dice);
+			break;
+		case 6:
+			System.out.println("주사위 : ⚅ " + dice);
+			break;
 		}
 		return dice;
 	}
@@ -191,7 +190,9 @@ public class MainView {
 				System.out.println("안내) 땅 구매 완료했습니다.");
 				System.out.println("현재 남은 자산은 " + p_money + "입니다.");
 			}
-		} else { System.out.println("안내) 자산부족으로 실패했습니다."); }
+		} else {
+			System.out.println("안내) 자산부족으로 실패했습니다.");
+		}
 	}
 
 	// 수현- 8. 통행료내기 메소드 [U] (누구 턴인지, 통행료 내야하는 땅 번호) [U]
@@ -215,15 +216,21 @@ public class MainView {
 	// 유정 - 9. 월급 및 상금 지급 메소드 [U] 10만원+
 	public void getPaid(int player, int pay) {
 		boolean result = pCon.getPaid(player, pay);
-		if (result) { System.out.println("안내) 월급이 입금됐습니다."); } 
-		else { System.out.println("안내) 월급 입금 실패~!"); }
+		if (result) {
+			System.out.println("안내) 월급이 입금됐습니다.");
+		} else {
+			System.out.println("안내) 월급 입금 실패~!");
+		}
 	}
 
 	// 유정 - 10. 현금 지불 메소드 [U]
 	void payCash(int player, int cash) {
 		boolean result = pCon.payCash(player, cash);
-		if (result) { System.out.println("안내) 금액이 차감되었습니다."); } 
-		else { System.out.println("안내) 금액 차감 실패~!"); }
+		if (result) {
+			System.out.println("안내) 금액이 차감되었습니다.");
+		} else {
+			System.out.println("안내) 금액 차감 실패~!");
+		}
 	}
 
 	// 예은 - 11. 플레이어가 소유하고 있는 황금열쇠 목록 가져오기 메소드
@@ -269,7 +276,30 @@ public class MainView {
 
 	// 유정 - 15. 무인도 탈출 시도 메소드 - 주사위가 6이 나오면 탈출, 아니면 쉬는 턴 -1 [U]
 	void escapeDesertIsland(int player) {
+		boolean result = pCon.escapeDesertIsland(player);
+		System.out.println("안내) 무인도에서 탈출합니다.");
+	}
 
+	// 유정 - 15-1 무인도인지 확인 메소드
+	void Island(int player) {
+		boolean result = pCon.Island(player);
+		if (result == true && move_b_no == 16) {
+			System.out.println("안내) 무인도에 도착했습니다.");
+			System.out.println("안내) 지금부터 2턴을 쉬어야하며, 주사위가 6이 나올 경우 탈출 가능합니다.");
+
+			Random random = new Random(); // Random 이용
+			int dice2 = random.nextInt(6) + 1; // 1~6사이의 주사위
+			System.out.println("주사위 : ⚀ " + dice2); // 실행해보니 주사위 굴리고 3 나왔는데 한칸 이동.. 어떻게 막는지 모르겠습니다..
+			if (move_b_no == 16) {
+				if (dice2 == 6) {
+					escapeDesertIsland(player);
+				} // 6이면 탈출
+				else if (dice2 < 6) {
+					System.out.println("안내) 무인도 탈출 실패");
+				}
+			}
+
+		}
 	}
 
 	// 수현 - 16. 올림픽 개최 메소드 [U]
