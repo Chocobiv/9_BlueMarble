@@ -39,7 +39,7 @@ public class PlayerController {
 		if ((location + num) > 20) { // 이동한 목적지가 출발 지점을 지났으면
 			new MainView().getPaid(player, 100000);
 			return PlayerDAO.getInstance().move(player, (location + num) - 20);
-		}else
+		} else
 			return PlayerDAO.getInstance().move(player, location + num);
 	}
 
@@ -81,7 +81,17 @@ public class PlayerController {
 			return PlayerDAO.getInstance().getPlayerLand(player);
 	}
 
-	
+	// 유정 - 무인도 탈출
+	public boolean escapeDesertIsland(int player) {
+		return PlayerDAO.getInstance().escapeDesertIsland(player);
+	}
+
+	// 유정 - 무인도인지 확인
+	public boolean Island(int player) {
+		return PlayerDAO.getInstance().Island(player);
+	}
+
+
 	// 비아 - 전체 플레이어 삭제 로직
 	public boolean deleteP() {
 		return PlayerDAO.getInstance().deleteP();

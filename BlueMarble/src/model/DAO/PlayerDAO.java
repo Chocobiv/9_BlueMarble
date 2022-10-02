@@ -21,8 +21,9 @@ public class PlayerDAO {
 		}
 	}
 
-	public static PlayerDAO getInstance() { return dao; }
-
+	public static PlayerDAO getInstance() {
+		return dao;
+	}
 
 	// 비아(9/29) - 플레이어 등록 메소드
 	public boolean addPlayer(String name, int p_turn) {
@@ -202,6 +203,33 @@ public class PlayerDAO {
 		return list;
 	}
 	
+	
+	// 유정 - 15. 무인도 탈출 시도 메소드 - 주사위가 6이 나오면 탈출, 아니면 쉬는 턴 -1 [U]
+	public boolean escapeDesertIsland(int player) { // 플레이어? 가 무인도에 위치하고 턴이 2이면(갇혔으면)
+		String sql = "update player set p_turn = 0 where p_turn = 2 and b_no = 16 and p_no = ?";
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("무인도 탈출 오류" + e);
+		}
+		return false;
+	}
+
+	public boolean Island(int player) { // 유정
+		String sql = "update player set p_turn = 2 where p_no = ?"; // 턴이 2로 바뀌였는지 빨리 지나가버려서 확인 안됨..
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("무인도인게 파악이 안됩니다." + e);
+		}
+		return false;
+	}
 
 	// 비아(9/29) - 전체 플레이어 삭제 메소드
 	public boolean deleteP() {
