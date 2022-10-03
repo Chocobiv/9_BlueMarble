@@ -277,6 +277,8 @@ public class MainView {
 		// 황금 열쇠는 랜덤 - 범위는 황금 열쇠 개수
 		Random random = new Random();
 		int goldrandom = random.nextInt(10) + 1;
+		
+		
 	}
 
 	// 예은 - 14. 무인도 메소드 - 2턴 쉼 [U]

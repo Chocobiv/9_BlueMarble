@@ -9,10 +9,12 @@ public class GoldkeyController {
 	PlayerController pCon = new PlayerController();
 
 	// 황금 열쇠 뽑기 로직
-	GoldkeyDTO getGoldKey(int player, int goldkey_no) {
-		return null;
+	ArrayList<GoldkeyDTO> getGoldKey(int player, int goldkey_no) {		
+		return GoldkeyDAO.getInstance().getGoldKey(goldkey_no);
 	}
 
+	
+	
 	// 비아 - 황금 열쇠 사용 가능 여부 확인 로직
 	public boolean isUsableGoldKey(int player, int c_no) {
 		// 황금열쇠 번호 받아와서 사용

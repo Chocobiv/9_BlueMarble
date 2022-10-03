@@ -11,6 +11,7 @@ public class GoldkeyDAO {
 	private static ResultSet rs;
 
 	private static GoldkeyDAO dao = new GoldkeyDAO();
+	
 
 	private GoldkeyDAO() {
 		try {
@@ -39,11 +40,39 @@ public class GoldkeyDAO {
 				list.add(dto);
 			} // while end
 			return list;
-		} catch (Exception e) {
-		}
+		} 
+		catch (Exception e) {}
 		return list;
 	}// goldKeyList end
 
+	//13.황금열쇠 뽑기 메소드
+	public ArrayList<GoldkeyDTO> getGoldKey(int c_num) {
+		String sql = "select * from team gold_key where c_num=? and c_name=? and c_coment=? and c_use and p_no";	
+		ArrayList<GoldkeyDTO> list = new ArrayList<GoldkeyDTO>();
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, c_num);
+			rs= ps.executeQuery();
+			while(rs.next()) {
+				GoldkeyDTO dto = new GoldkeyDTO();				
+				dto.setC_num(c_num);
+				dto.setC_name(null);
+				dto.setC_coment(null);
+				dto.setC_use(false);
+				dto.setP_no(0);		
+				list.add(dto);
+			}//while end		
+			return list;
+		} //try end
+		catch (Exception e) {System.out.println("13번 황금열쇠 뽑기 메소드 실패" +e);}
+		return list;
+	}//getGoldKey end
+	
+	
+	
+	
+	
+	
 	// ★비아추가★
 	// 황금열쇠 소유자를 가져오는 메소드
 	public int isPlayerGoldKey(int c_no) {
