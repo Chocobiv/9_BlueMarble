@@ -54,9 +54,6 @@ MVC 제작
 
 [10월 4일]<br>
 발표
-</details>
-
-
 
 <details><summary>개인일정 박수현
 </summary>
@@ -120,6 +117,11 @@ MVC 제작
 |	           |무인도 탈출 성공 메소드              |
 |	           |무인도 탈출 실패 메소드              |
 </details>
+</details>
+
+
+
+
 
 
 
