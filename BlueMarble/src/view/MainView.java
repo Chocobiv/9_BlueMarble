@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -42,44 +43,45 @@ public class MainView {
 
 			isExistLandlord(whoIsTurn, move_b_no);
 
-			count++;
-			if (whoIsTurn == 1) // **임시 조치**
-				whoIsTurn = 2;
-			else if (whoIsTurn == 2)
-				whoIsTurn = 1;
-
 			// 황금열쇠 사용
 			useGoldKey(whoIsTurn, 4);
 
-			// **테스트 편의를 위해서 만듦, 나중에 수정할 것**
-			System.out.print("안내) 게임 끝낼까요?");
-			String answer = sc.next();
-			if (answer.equals("Y") || answer.equals("y")) {
-				// 플레이어 삭제
-				deleteP();
-				System.out.println();
-				count = 31; // **무한 반복 종료를 위한 임시 조치**
-			} else if (answer.equals("N") || answer.equals("n"))
-				System.out.println("안내) 게임을 계속합니다.\n");
-			else
-				System.out.println("안내) 알 수 없는 입력입니다.\n");
+			count++;
+			pCon.changeTurn(whoIsTurn);		//현재 턴인 플레이어 교체
+
+
+			try {
+				// **테스트 편의를 위해서 만듦, 나중에 수정할 것**
+				System.out.print("안내) 게임 끝낼까요?");
+				String answer = sc.next();
+				if (answer.equals("Y") || answer.equals("y")) {
+					// 플레이어 삭제
+					deleteP();
+					System.out.println();
+					count = 31; // **무한 반복 종료를 위한 임시 조치**
+				} else if (answer.equals("N") || answer.equals("n"))
+					System.out.println("안내) 게임을 계속합니다.\n");
+				else
+					System.out.println("안내) 알 수 없는 입력입니다.\n");
+			}catch(InputMismatchException e) { System.out.println("안내) 입력 타입이 잘못되었습니다 : "+e); }
 		}
 	}
 
 	// 비아(9/29) - 2. 플레이어 등록 메소드 - 플레이어 이름 입력받아서 DB에 저장 [C]
 	void addPlayer() {
-		// 처음 시작할 때 60만원 지급
-		System.out.print("플레이어 1 이름 : ");
-		String name1 = sc.next();
-		System.out.print("플레이어 2 이름 : ");
-		String name2 = sc.next();
-		boolean result1 = pCon.addPlayer(name1, 0); // 항상 플레이어1이 먼저 시작
-		boolean result2 = pCon.addPlayer(name2, 1); // 플레이어2는 자기 차례까지 남은 턴: 1
-		if (result1 && result2)
-			System.out.println("안내) 플레이어 등록 성공\n");
-		else
-			System.out.println("안내) 플레이어 등록 실패\n");
-
+		try {
+			// 처음 시작할 때 60만원 지급
+			System.out.print("플레이어 1 이름 : ");
+			String name1 = sc.next();
+			System.out.print("플레이어 2 이름 : ");
+			String name2 = sc.next();
+			boolean result1 = pCon.addPlayer(name1, 0); // 항상 플레이어1이 먼저 시작
+			boolean result2 = pCon.addPlayer(name2, 1); // 플레이어2는 자기 차례까지 남은 턴: 1
+			if (result1 && result2)
+				System.out.println("안내) 플레이어 등록 성공\n");
+			else
+				System.out.println("안내) 플레이어 등록 실패\n");
+		}catch(InputMismatchException e) { System.out.println("안내) 입력 타입이 잘못되었습니다 : "+e); }
 		System.out.println("안내) 부루마블 게임을 시작합니다!\n");
 	}
 
@@ -134,7 +136,9 @@ public class MainView {
 		// 단, 이동한 목적지가 출발 지점을 지났으면 그에 맞는 행동 필요
 		boolean result = pCon.move(player, num);
 		if (result) {
-			System.out.println("안내) 말 이동 성공\n");
+			//**비아추가** 부루마블 판 출력
+			new BoardView().showBoard();
+			//System.out.println("안내) 말 이동 성공\n");
 			// 플레이어의 다음 자기 차례까지 남은 턴 수(p_turn) 교체
 			boolean result2 = pCon.changeTurn(player);
 			if (result2)
@@ -147,7 +151,7 @@ public class MainView {
 		// 주사위 나온만큼 이동한 현재 위치
 		move_b_no = pCon.getLocation(player);
 		// 현재 말 위치 출력(**나중에 판 구현되면 삭제해야함**)
-		System.out.println("플레이어" + player + "의 현재위치 : " + move_b_no);
+		//System.out.println("플레이어" + player + "의 현재위치 : " + move_b_no);
 	}
 
 	// 수현 - 6. 이동한 땅의 주인 존재 여부 확인 메소드 [R]

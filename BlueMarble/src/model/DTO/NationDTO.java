@@ -8,6 +8,7 @@ public class NationDTO {
 	private int n_price;
 	private int n_toll_fee;
 	private int p_no;
+	private int b_no;		//플레이어 현재 위치
 	
 	public NationDTO() {}
 
@@ -18,6 +19,17 @@ public class NationDTO {
 		this.n_price = n_price;
 		this.n_toll_fee = n_toll_fee;
 		this.p_no = p_no;
+	}
+	
+	//전체 필드를 포함한 생성자
+	public NationDTO(int n_no, String n_name, int n_price, int n_toll_fee, int p_no, int b_no) {
+		super();
+		this.n_no = n_no;
+		this.n_name = n_name;
+		this.n_price = n_price;
+		this.n_toll_fee = n_toll_fee;
+		this.p_no = p_no;
+		this.b_no = b_no;
 	}
 
 	public int getN_no() {
@@ -58,6 +70,14 @@ public class NationDTO {
 
 	public void setP_no(int p_no) {
 		this.p_no = p_no;
+	}
+
+	public int getB_no() {
+		return b_no;
+	}
+
+	public void setB_no(int b_no) {
+		this.b_no = b_no;
 	}
 	
 }

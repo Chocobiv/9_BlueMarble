@@ -41,7 +41,7 @@ public class NationDAO {
 		}
 		return list;
 	}
-
+	
 	// 수현(9/30) n_no맞는 땅정보 한번에 가져오기 위한 메소드 생성 // 소유자존재 여부는 따로!
 	public NationDTO getNationInfo(int n_no) {
 		String sql = "select * from nation where n_no=?";
@@ -138,6 +138,22 @@ public class NationDAO {
 			return true;
 		} catch (Exception e) {System.out.println("올림픽 폐막 오류 " +e);}
 		return false;
+	}
+	
+	// 비아 - 플레이어가 소유한 땅의 개수 카운트 메소드
+	public int countPlayerLand(int player) {
+		String sql = "select count(*) from nation where p_no=?";
+		int count = 0;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+			return count;
+		} catch (Exception e) { System.out.println("경고) 소유한 땅 개수 카운트 실패 " + e); }
+		return count;
 	}
 	
 }

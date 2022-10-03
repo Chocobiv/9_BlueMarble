@@ -25,13 +25,37 @@ public class BoardView {
 		String foot = "╰─────────╯╰─────────╯╰─────────╯╰─────────╯╰─────────╯╰─────────╯\n";
 
 		ArrayList<NationDTO> n = nCon.getNations();
-
+		
+		//비아 - 플레이어 위치에 따른 말 위치 변경 구현
+		int player1_location = pCon.getLocation(1);
+		int player2_location = pCon.getLocation(2);
+		char[] player1_piece = new char[20];
+		char[] player2_piece = new char[20];
+		for(int i=0;i<20;i++) {
+			if(i == player1_location-1) {
+				player1_piece[i] = '●';
+			}else {
+				player1_piece[i] = ' '; 
+			}
+		}
+		for(int i=0;i<20;i++) {
+			if(i == player2_location-1) {
+				player2_piece[i] = '○';
+			}else {
+				player2_piece[i] = ' '; 
+			}
+		}
+		
+		
 		System.out.printf(head);
 		int top = 10;
 		System.out.printf("%8s  %8s  %8s  %8s  %8s  %8s  \n", n.get(top).getN_name(), n.get(top - 1).getN_name(),
 				n.get(top - 2).getN_name(), n.get(top - 3).getN_name(), n.get(top - 4).getN_name(),
 				n.get(top - 5).getN_name());
-		System.out.printf("%8s  %8s  %8s  %8s  %8s  %8s  \n\n", "●", "●", "●", "●", "●", "●");
+		System.out.printf("%8c  %8c  %8c  %8c  %8c  %8c  \n\n", player1_piece[top], player1_piece[top-1], 
+				player1_piece[top-2], player1_piece[top-3], player1_piece[top-4], player1_piece[top-5]);
+		System.out.printf("%8c  %8c  %8c  %8c  %8c  %8c  \n\n", player2_piece[top], player2_piece[top-1], 
+				player2_piece[top-2], player2_piece[top-3], player2_piece[top-4], player2_piece[top-5]);
 		System.out.printf(foot);
 
 		// 14 , 7 , 15 , 6 , 16 , 5 , 17 , 4
@@ -40,7 +64,10 @@ public class BoardView {
 			System.out.printf("╭─────────╮                                            ╭─────────╮\n\n");
 			System.out.printf("%8s                                              %8s\n", n.get(center[i]).getN_name(),
 					n.get(center[i + 1]).getN_name());
-			System.out.printf("%8s                                              %8s\n\n", "●", "●");
+			System.out.printf("%8c                                              %8c\n\n", player1_piece[center[i]], 
+					player1_piece[center[i+1]]);
+			System.out.printf("%8c                                              %8c\n\n", player2_piece[center[i]], 
+					player2_piece[center[i+1]]);
 			System.out.printf("╰─────────╯                                            ╰─────────╯\n");
 		}
 
@@ -49,7 +76,12 @@ public class BoardView {
 		System.out.printf("%8s  %8s  %8s  %8s  %8s  %8s  \n", // 5 / 4 / 3 / 2 / 1
 				n.get(bottom - 2).getN_name(), n.get(bottom - 1).getN_name(), n.get(bottom).getN_name(),
 				n.get(bottom + 1).getN_name(), n.get(bottom + 2).getN_name(), n.get(bottom - 17).getN_name());
-		System.out.printf("%8s  %8s  %8s  %8s  %8s  %8s  \n\n", "●", "●", "●", "●", "●", "●");
+		System.out.printf("%8c  %8c  %8c  %8c  %8c  %8c  \n", // 5 / 4 / 3 / 2 / 1
+				player1_piece[bottom - 2], player1_piece[bottom - 1], player1_piece[bottom],
+				player1_piece[bottom + 1], player1_piece[bottom + 2], player1_piece[bottom - 17]);
+		System.out.printf("%8c  %8c  %8c  %8c  %8c  %8c  \n", // 5 / 4 / 3 / 2 / 1
+				player2_piece[bottom - 2], player2_piece[bottom - 1], player2_piece[bottom],
+				player2_piece[bottom + 1], player2_piece[bottom + 2], player2_piece[bottom - 17]);
 		System.out.printf(foot);
 
 		System.out.println("------------------------------------------------------------------");
