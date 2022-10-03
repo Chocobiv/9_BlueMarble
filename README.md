@@ -95,4 +95,4 @@ MVC 제작
 ...
 
 사용한 언어 JAVA , SQL
-<img src="https://img.shields.io/badge/sql-#4479A1?style=for-the-badge&logo=MYQL&logoColor=#4479A1">
+<img src="https://img.shields.io/badge/sql-4479A1?style=for-the-badge&logo=MYQL&logoColor=#4479A1">
