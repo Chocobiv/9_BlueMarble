@@ -31,7 +31,7 @@
 
 
 
-<details><summary>📆전체 개발과정 및 일정📆
+<details><summary>📆개발과정 및 일정📆
 </summary>
 
 본 프로젝트는 9월 28일부터 10월 5일까지 총 7일간 제작되었음
