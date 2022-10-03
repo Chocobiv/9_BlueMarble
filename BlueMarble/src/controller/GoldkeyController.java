@@ -100,7 +100,7 @@ public class GoldkeyController {
 		return GoldkeyDAO.getInstance().useGoldKey(c_no);
 	}
 
-	// 비아 - 소유하고 있는 황금열쇠 목록 가져오기 로직
+	// 소유하고 있는 황금열쇠 목록 가져오기 로직
 	public ArrayList<GoldkeyDTO> goldKeyList(int player) {
 		return GoldkeyDAO.getInstance().goldKeyList(player);
 	}
