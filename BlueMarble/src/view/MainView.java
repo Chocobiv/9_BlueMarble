@@ -89,6 +89,7 @@ public class MainView {
 	int rollDice() {
 		// 1~6의 숫자 중 랜덤한 정수 반환
 		// 숫자만 보여주기
+		
 		System.out.println("안내) 플레이어" + whoIsTurn + "님의 차례입니다.");
 		System.out.print("안내) 주사위 굴립니다");
 
@@ -132,9 +133,11 @@ public class MainView {
 	void move(int player, int num) {
 		// num만큼 말 이동(+ or -)
 		// 단, 이동한 목적지가 출발 지점을 지났으면 그에 맞는 행동 필요
+		
 		boolean result = pCon.move(player, num);
 		if (result) {
 			System.out.println("안내) 말 이동 성공\n");
+			// Island(player);			// 유정 테스트중!
 			// 플레이어의 다음 자기 차례까지 남은 턴 수(p_turn) 교체
 			boolean result2 = pCon.changeTurn(player);
 			if (result2)
@@ -286,31 +289,25 @@ public class MainView {
 
 	}
 
-	// 유정 - 15. 무인도 탈출 시도 메소드 - 주사위가 6이 나오면 탈출, 아니면 쉬는 턴 -1 [U]
+	// 유정 - 15. 무인도 탈출 성공 메소드 - 주사위가 6이 나오면 탈출, 아니면 쉬는 턴 -1 [U]
 	void escapeDesertIsland(int player) {
 		boolean result = pCon.escapeDesertIsland(player);
 		System.out.println("안내) 무인도에서 탈출합니다.");
 	}
+	
+	// 유정 - 15 - 2 무인도 탈출 실패 메소드
+	void escapeDesertIsland2(int player) {
+		boolean result = pCon.escapeDesertIsland2(player);
+		System.out.println("안내) 무인도탈출 실패");
+	}
 
 	// 유정 - 15-1 무인도인지 확인 메소드
-	void Island(int player) {
+	void Island(int player) {	// 어디에 넣어도 플레이어0이 등장하며 겜이 오류나서 테스트 못해봤습니다..그리고 매개변수 player안떠서 1이나 2 했었어용
+		System.out.println( "무인도 확인"+ player);
 		boolean result = pCon.Island(player);
-		if (result == true && move_b_no == 16) {
+		if (result == true ) {
 			System.out.println("안내) 무인도에 도착했습니다.");
 			System.out.println("안내) 지금부터 2턴을 쉬어야하며, 주사위가 6이 나올 경우 탈출 가능합니다.");
-
-			Random random = new Random(); // Random 이용
-			int dice2 = random.nextInt(6) + 1; // 1~6사이의 주사위
-			System.out.println("주사위 : ⚀ " + dice2); // 실행해보니 주사위 굴리고 3 나왔는데 한칸 이동.. 어떻게 막는지 모르겠습니다..
-			if (move_b_no == 16) {
-				if (dice2 == 6) {
-					escapeDesertIsland(player);
-				} // 6이면 탈출
-				else if (dice2 < 6) {
-					System.out.println("안내) 무인도 탈출 실패");
-				}
-			}
-
 		}
 	}
 

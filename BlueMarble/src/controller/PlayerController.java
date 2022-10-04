@@ -81,11 +81,16 @@ public class PlayerController {
 			return PlayerDAO.getInstance().getPlayerLand(player);
 	}
 
-	// 유정 - 무인도 탈출
+	// 유정 - 무인도 탈출 성공
 	public boolean escapeDesertIsland(int player) {
 		return PlayerDAO.getInstance().escapeDesertIsland(player);
 	}
 
+	// 유정 - 무인도 탈출 실패
+	public boolean escapeDesertIsland2(int player) {
+		return PlayerDAO.getInstance().escapeDesertIsland2(player);
+	}
+	
 	// 유정 - 무인도인지 확인
 	public boolean Island(int player) {
 		return PlayerDAO.getInstance().Island(player);

@@ -206,19 +206,19 @@ public class PlayerDAO {
 	
 	// 유정 - 15. 무인도 탈출 시도 메소드 - 주사위가 6이 나오면 탈출, 아니면 쉬는 턴 -1 [U]
 	public boolean escapeDesertIsland(int player) { // 플레이어? 가 무인도에 위치하고 턴이 2이면(갇혔으면)
-		String sql = "update player set p_turn = 0 where p_turn = 2 and b_no = 16 and p_no = ?";
+		String sql1 = "update player set p_turn = 0 where p_turn >= 1 and b_no = 16 and p_no = ?";	// 6이 나올경우 - 탈출 성공한 경우
 		try {
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement(sql1);
 			ps.setInt(1, player);
 			ps.executeUpdate();
 			return true;
 		} catch (Exception e) {
-			System.out.println("무인도 탈출 오류" + e);
+			System.out.println("무인도 탈출성공 오류" + e);
 		}
 		return false;
 	}
 
-	public boolean Island(int player) { // 유정
+	public boolean Island(int player) { // 유정 무인도인지 파악하고 피턴2로 바꿔줌
 		String sql = "update player set p_turn = 2 where p_no = ?"; // 턴이 2로 바뀌였는지 빨리 지나가버려서 확인 안됨..
 		try {
 			ps = con.prepareStatement(sql);
@@ -230,6 +230,20 @@ public class PlayerDAO {
 		}
 		return false;
 	}
+	
+	public boolean escapeDesertIsland2( int player ) {	// 실패할 경우 - 일단 턴 한번 깎고 그대로 위치하고 누구인지 받고.
+		String sql = "update player set p_turn = 1 and b_no = 16 where p_no = ?";	
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("무인도 탈출실패 오류" + e);
+		}
+		return false;
+	}
+
 
 	// 비아(9/29) - 전체 플레이어 삭제 메소드
 	public boolean deleteP() {
