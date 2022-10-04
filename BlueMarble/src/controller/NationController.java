@@ -52,5 +52,10 @@ public class NationController {
 	public boolean saleLand(int player, int n_no , int n_price) {
 		return NationDAO.getInstance().saleLand(player,n_no, n_price);
 	}
+	
+	// 비아 - 플레이어가 소유한 땅의 개수 카운트 로직
+	public int countPlayerLand(int player) {
+		return NationDAO.getInstance().countPlayerLand(player);
+	}
 		
 }
