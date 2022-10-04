@@ -8,6 +8,7 @@ import java.util.Scanner;
 import controller.GoldkeyController;
 import controller.NationController;
 import controller.PlayerController;
+import model.DAO.GoldkeyDAO;
 import model.DTO.GoldkeyDTO;
 import model.DTO.NationDTO;
 
@@ -181,9 +182,16 @@ public class MainView {
 			System.out.println("안내) 이미 소유한 땅입니다.");
 			return;
 		} else if (p_no != whoIsTurn) {//상대방 땅일때
-			System.out.println("안내) 안타깝게도 상대방 땅입니다. 통행료를 지불해주세요.\n");
-			payTollFee(whoIsTurn, n_no); // 통행료지불 메소드로 이동
-		}
+	         System.out.println("안내) 안타깝게도 상대방 땅입니다. 통행료를 지불해주세요.\n");
+	         
+	         //비아 - 통행료 지불 전에 통행료 패스 황금열쇠 가지고 있는지 확인
+	         int isPlayerGoldKey = GoldkeyDAO.getInstance().isPlayerGoldKey(3);
+	         if (isPlayerGoldKey == whoIsTurn) {      //통행료 패스 황금열쇠를 가지고 있으면
+	            // 황금열쇠 사용여부가 0이면 사용
+	            short isUsableGoldKey = GoldkeyDAO.getInstance().isUsableGoldKey(3);
+	            if (isUsableGoldKey == 0) useGoldKey(whoIsTurn, 3);
+	         }else payTollFee(whoIsTurn, n_no);       // 통행료지불 메소드로 이동
+	      }
 	}
 
 	// 수현 - 7. 땅 구매 메소드 [U] (누구 턴인지, 구매할 땅 번호) [U]

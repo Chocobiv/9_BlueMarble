@@ -42,8 +42,7 @@ public class GoldkeyController {
 					break;
 				case 3: // 1회 통행료 패스
 					System.out.println("황금열쇠) 1회 통행료 패스");
-					// 새로운 메소드
-					
+					System.out.println("안내) 통행료 패스 완료!");
 					break;
 				case 4: // 뒤로 두칸 이동
 					System.out.println("황금열쇠) 뒤로 두칸 이동");
