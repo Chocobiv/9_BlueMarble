@@ -11,7 +11,6 @@ public class GoldkeyDAO {
 	private static ResultSet rs;
 
 	private static GoldkeyDAO dao = new GoldkeyDAO();
-	
 
 	private GoldkeyDAO() {
 		try {
@@ -21,7 +20,9 @@ public class GoldkeyDAO {
 		}
 	}
 
-	public static GoldkeyDAO getInstance() { return dao; }
+	public static GoldkeyDAO getInstance() {
+		return dao;
+	}
 
 	// 11. 플레이어가 소유하고 있는 황금열쇠 목록 가져오기 메소드
 
@@ -40,39 +41,27 @@ public class GoldkeyDAO {
 				list.add(dto);
 			} // while end
 			return list;
-		} 
-		catch (Exception e) {}
+		} catch (Exception e) {
+		}
 		return list;
 	}// goldKeyList end
 
-	//13.황금열쇠 뽑기 메소드
-	public ArrayList<GoldkeyDTO> getGoldKey(int c_num) {
-		String sql = "select * from team gold_key where c_num=? and c_name=? and c_coment=? and c_use and p_no";	
-		ArrayList<GoldkeyDTO> list = new ArrayList<GoldkeyDTO>();
+	// 13.황금열쇠 뽑기 메소드
+	public boolean getGoldKey(int player, int c_num) {
+		String sql = "update gold_key set p_no = ? where c_num  = ?";
+
 		try {
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, c_num);
-			rs= ps.executeQuery();
-			while(rs.next()) {
-				GoldkeyDTO dto = new GoldkeyDTO();				
-				dto.setC_num(c_num);
-				dto.setC_name(null);
-				dto.setC_coment(null);
-				dto.setC_use(false);
-				dto.setP_no(0);		
-				list.add(dto);
-			}//while end		
-			return list;
-		} //try end
-		catch (Exception e) {System.out.println("13번 황금열쇠 뽑기 메소드 실패" +e);}
-		return list;
-	}//getGoldKey end
-	
-	
-	
-	
-	
-	
+			ps.setInt(1, player);
+			ps.setInt(2, c_num);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("황금열쇠 뽑기 오류" + e);
+		}
+		return false;
+	}
+
 	// ★비아추가★
 	// 황금열쇠 소유자를 가져오는 메소드
 	public int isPlayerGoldKey(int c_no) {

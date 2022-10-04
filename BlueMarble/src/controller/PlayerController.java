@@ -16,8 +16,8 @@ public class PlayerController {
 	}
 
 	// 플레이어 정보 가져오는 로직
-	PlayerDTO getPlayerInfo(int player) {
-		return null;
+	public PlayerDTO getPlayerInfo(int player) {
+		return PlayerDAO.getInstance().getPlayerInfo(player);
 	}
 
 	// 비아 - 누구 턴인지 가져오는 로직
@@ -49,15 +49,15 @@ public class PlayerController {
 	}
 
 	// 수현 - 통행료 내기 로직
-	public boolean payTollFee(int player, int n_toll_fee) {//매개변수 통행료로 변경
+	public boolean payTollFee(int player, int n_toll_fee) {// 매개변수 통행료로 변경
 		return PlayerDAO.getInstance().payTollFee(player, n_toll_fee);
-	
+
 	}
 
 	// 수현 - 통행료 얻기 로직
 	public boolean takeTollFee(int player, int n_toll_fee) {
 		return PlayerDAO.getInstance().takeTollFee(player, n_toll_fee);
-		
+
 	}
 
 	// 월급 및 상금 지급 로직 // 유정
@@ -75,10 +75,10 @@ public class PlayerController {
 	public int getPlayerMoney(int player) {
 		return PlayerDAO.getInstance().getPlayerMoney(player);
 	}
-	
+
 	// 수현 - 플레이어가 소유한 땅 정보 가져오기(매각위해)
 	public ArrayList<NationDTO> getPlayerLand(int player) {
-			return PlayerDAO.getInstance().getPlayerLand(player);
+		return PlayerDAO.getInstance().getPlayerLand(player);
 	}
 
 	// 유정 - 무인도 탈출 성공
@@ -90,12 +90,16 @@ public class PlayerController {
 	public boolean escapeDesertIsland2(int player) {
 		return PlayerDAO.getInstance().escapeDesertIsland2(player);
 	}
-	
+
 	// 유정 - 무인도인지 확인
 	public boolean Island(int player) {
 		return PlayerDAO.getInstance().Island(player);
 	}
 
+	// 유정 - 무인도에 같혀있기
+	public boolean donotmove(int player) {
+		return PlayerDAO.getInstance().donotmove(player);
+	}
 
 	// 비아 - 전체 플레이어 삭제 로직
 	public boolean deleteP() {

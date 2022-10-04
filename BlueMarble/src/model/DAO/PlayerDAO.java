@@ -40,6 +40,24 @@ public class PlayerDAO {
 		return false;
 	}
 
+	// 비아(10/04) - 플레이어 정보 가져오는 메소드
+	public PlayerDTO getPlayerInfo(int player) {
+		String sql = "select * from player where p_no = ?";
+		PlayerDTO dto = null;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				dto = new PlayerDTO(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+			}
+			return dto;
+		} catch (Exception e) {
+			System.out.println("경고) 플레이어 정보 가져오기 오류" + e);
+		}
+		return dto;
+	}
+
 	// 비아(9/29) - 누구 턴인지 가져오는 로직
 	public int getWhoIsTurn() {
 		String sql = "select p_no from player where p_turn = 0";
@@ -110,6 +128,20 @@ public class PlayerDAO {
 		return false;
 	}
 
+	//유정
+	public boolean donotmove(int player) {
+		String sql = "update player set b_no = 16 where p_no = ?";
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("경고) 무인도에 갇혀있기 실패 : " + e);
+		}
+		return false;
+	}
+
 	// 유정 - 9. 월급 및 상금 지급 메소드 [U] 10만원+
 	public boolean getPaid(int player, int pay) {
 		String sql = "update player set p_money = p_money+? where p_no = ? ";
@@ -154,59 +186,65 @@ public class PlayerDAO {
 				p_money = rs.getInt(1);
 			}
 			return p_money;
-		} catch (Exception e) {System.out.println("플레이어 자산 확인 오류 " + e);}
+		} catch (Exception e) {
+			System.out.println("플레이어 자산 확인 오류 " + e);
+		}
 		return 0;
 	}
 
 	// 수현 - 통행료 내기 메소드
 	public boolean payTollFee(int player, int n_toll_fee) {
-		String sql="update player set p_money= p_money-? where p_no=?";
+		String sql = "update player set p_money= p_money-? where p_no=?";
 		try {
-			ps=con.prepareStatement(sql);
+			ps = con.prepareStatement(sql);
 			ps.setInt(1, n_toll_fee);
 			ps.setInt(2, player);
 			ps.executeUpdate();
 			return true;
-		} catch (Exception e) {System.out.println("통행료 지불 오류 " + e);}
+		} catch (Exception e) {
+			System.out.println("통행료 지불 오류 " + e);
+		}
 		return false;
 	}
 
 	// 수현 - 통행료 얻기 메소드
 	public boolean takeTollFee(int player, int n_toll_fee) {
-		String sql="update player set p_money= p_money+? where p_no != ?";
+		String sql = "update player set p_money= p_money+? where p_no != ?";
 		try {
-			ps=con.prepareStatement(sql);
+			ps = con.prepareStatement(sql);
 			ps.setInt(1, n_toll_fee);
 			ps.setInt(2, player);
 			ps.executeUpdate();
 			return true;
-		} catch (Exception e) {System.out.println("통행료 입금 오류 " + e);}
+		} catch (Exception e) {
+			System.out.println("통행료 입금 오류 " + e);
+		}
 		return false;
 	}
 
 	// 수현 - 플레이어가 소유한 땅 정보 출력 메소드
 	public ArrayList<NationDTO> getPlayerLand(int player) {
-		String sql="select * from nation where p_no=?";
+		String sql = "select * from nation where p_no=?";
 		ArrayList<NationDTO> list = new ArrayList<>();
 		try {
-			ps=con.prepareStatement(sql);
+			ps = con.prepareStatement(sql);
 			ps.setInt(1, player);
-			rs=ps.executeQuery();
-			while(rs.next()) {
-				NationDTO dto = new NationDTO(
-						rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)
-						);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				NationDTO dto = new NationDTO(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
 				list.add(dto);
 			}
 			return list;
-		} catch (Exception e) {System.out.println("플레이어 소유한 땅 정보 출력 오류 " + e);}
+		} catch (Exception e) {
+			System.out.println("플레이어 소유한 땅 정보 출력 오류 " + e);
+		}
 		return list;
 	}
-	
-	
+
 	// 유정 - 15. 무인도 탈출 시도 메소드 - 주사위가 6이 나오면 탈출, 아니면 쉬는 턴 -1 [U]
 	public boolean escapeDesertIsland(int player) { // 플레이어? 가 무인도에 위치하고 턴이 2이면(갇혔으면)
-		String sql1 = "update player set p_turn = 0 where p_turn >= 1 and b_no = 16 and p_no = ?";	// 6이 나올경우 - 탈출 성공한 경우
+		String sql1 = "update player set p_turn = 0 where p_turn >= 1 and b_no = 16 and p_no = ?"; // 6이 나올경우 - 탈출 성공한
+																									// 경우
 		try {
 			ps = con.prepareStatement(sql1);
 			ps.setInt(1, player);
@@ -230,9 +268,9 @@ public class PlayerDAO {
 		}
 		return false;
 	}
-	
-	public boolean escapeDesertIsland2( int player ) {	// 실패할 경우 - 일단 턴 한번 깎고 그대로 위치하고 누구인지 받고.
-		String sql = "update player set p_turn = 1 and b_no = 16 where p_no = ?";	
+
+	public boolean escapeDesertIsland2(int player) { // 실패할 경우 - 일단 턴 한번 깎고 그대로 위치하고 누구인지 받고.
+		String sql = "update player set p_turn = 1 and b_no = 16 where p_no = ?";
 		try {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, player);
@@ -243,7 +281,6 @@ public class PlayerDAO {
 		}
 		return false;
 	}
-
 
 	// 비아(9/29) - 전체 플레이어 삭제 메소드
 	public boolean deleteP() {

@@ -10,12 +10,10 @@ public class GoldkeyController {
 	NationController nCon = new NationController();
 
 	// 황금 열쇠 뽑기 로직
-	ArrayList<GoldkeyDTO> getGoldKey(int player, int goldkey_no) {		
-		return GoldkeyDAO.getInstance().getGoldKey(goldkey_no);
+	public boolean getGoldKey(int player, int c_num) {
+		return GoldkeyDAO.getInstance().getGoldKey(player, c_num);
 	}
 
-	
-	
 	// 비아 - 황금 열쇠 사용 가능 여부 확인 로직
 	public boolean isUsableGoldKey(int player, int c_no) {
 		// 황금열쇠 번호 받아와서 사용
@@ -31,14 +29,14 @@ public class GoldkeyController {
 					// 구매한 땅 카운트해와서
 					int count1 = nCon.countPlayerLand(player);
 					// 지불
-					pCon.payCash(player, count1*30000);
+					pCon.payCash(player, count1 * 30000);
 					break;
 				case 2: // 땅 구매한것당 1만씩 지불
 					System.out.println("황금열쇠) 땅 구매한것당 1만씩 지불");
 					// 구매한 땅 카운트해와서
 					int count2 = nCon.countPlayerLand(player);
 					// 지불
-					pCon.payCash(player, count2*10000);
+					pCon.payCash(player, count2 * 10000);
 					break;
 				case 3: // 1회 통행료 패스
 					System.out.println("황금열쇠) 1회 통행료 패스");
@@ -61,21 +59,25 @@ public class GoldkeyController {
 					System.out.println("황금열쇠) 다른 플레이어에게 10만원 받기");
 					// 돈을 지불해야하는 플레이어가 돈이 없을 경우 그냥 종료
 					int payPlayer = 0;
-					if(player==1) payPlayer = 2;
-					else if(player==2) payPlayer = 1;
-					
-					int p_money = pCon.getPlayerMoney(payPlayer);// 플레이어 자산 호출 
-					
+					if (player == 1)
+						payPlayer = 2;
+					else if (player == 2)
+						payPlayer = 1;
+
+					int p_money = pCon.getPlayerMoney(payPlayer);// 플레이어 자산 호출
+
 					// 해당 플레이어 자산에서 10만원 이상인 경우에만 돈 지급됨
 					if (p_money >= 100000) {
-						pCon.payCash(payPlayer,100000);
+						pCon.payCash(payPlayer, 100000);
 						pCon.getPaid(player, 100000);
-					}else { System.out.println("안내) 안타깝네요! 상대방의 돈이 10만원 미만이라 지급이 취소됩니다."); }
-					
+					} else {
+						System.out.println("안내) 안타깝네요! 상대방의 돈이 10만원 미만이라 지급이 취소됩니다.");
+					}
+
 					break;
 				case 8: // 10만원 차감
 					System.out.println("황금열쇠) 10만원 차감");
-					pCon.payCash(player,100000);
+					pCon.payCash(player, 100000);
 					break;
 				case 9: // 상대방이 소유한 땅 무효화
 					System.out.println("황금열쇠) 상대방이 소유한 땅 무효화");
