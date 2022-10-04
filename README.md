@@ -117,8 +117,6 @@ MVC 제작
 |	           |무인도 탈출 성공 메소드              |
 |	           |무인도 탈출 실패 메소드              |
 </details>
-</details>
-
 
 <details><summary>개인일정 최예은
 </summary>
@@ -135,6 +133,10 @@ MVC 제작
 | 10/3 | 황금 열쇠 뽑기 메소드 완료
 무인도 메소드 - 2턴 쉼 구현 중 |
 </details>
+</details>
+
+
+
 
 
 
