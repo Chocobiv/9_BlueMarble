@@ -42,8 +42,13 @@ public class PlayerController {
 		} else
 			return PlayerDAO.getInstance().move(player, location + num);
 	}
+	
+	//비아 - [황금열쇠] 출발지로 이동 로직
+	public boolean moveStart(int player) {
+		return PlayerDAO.getInstance().moveStart(player);
+	}
 
-	// 비아 - 플레이어의 턴 수 교체 로직 추가
+	// 비아 - 플레이어의 턴 수 교체 로직
 	public boolean changeTurn(int player) {
 		return PlayerDAO.getInstance().changeTurn(player);
 	}
@@ -97,13 +102,8 @@ public class PlayerController {
 	}
 
 	// 유정,수현 - 무인도에 몇턴 갇혔는지 확인
-	public int getwatingturn(int player) {
-		return PlayerDAO.getInstance().getwatingturn(player);
-	}
-
-	// 비아 - 전체 플레이어 삭제 로직
-	public boolean deleteP() {
-		return PlayerDAO.getInstance().deleteP();
+	public int getWatingTurn(int player) {
+		return PlayerDAO.getInstance().getWatingTurn(player);
 	}
 
 }

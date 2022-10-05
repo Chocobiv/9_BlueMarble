@@ -106,6 +106,20 @@ public class PlayerDAO {
 		}
 		return false;
 	}
+	
+	//비아 - [황금열쇠] 출발지로 이동 메소드
+	public boolean moveStart(int player) {
+		String sql = "update player set b_no = 1 where p_no = ?"; // SQL 작성
+		try {
+			ps = con.prepareStatement(sql); // SQL 연결/조작
+			ps.setInt(1, player);
+			ps.executeUpdate(); 			// SQL 실행/결과조작
+			return true; 					// 반환
+		} catch (Exception e) {
+			System.out.println("경고) 출발지로 이동 실패 : " + e);
+		}
+		return false;
+	}
 
 	// 비아(9/29) - 플레이어의 턴 수 교체 로직
 	public boolean changeTurn(int player) {
@@ -124,20 +138,6 @@ public class PlayerDAO {
 			return true; // 반환
 		} catch (Exception e) {
 			System.out.println("경고) 말 이동 실패 : " + e);
-		}
-		return false;
-	}
-
-	// 유정
-	public boolean donotmove(int player) {
-		String sql = "update player set b_no = 16 where p_no = ?";
-		try {
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, player);
-			ps.executeUpdate();
-			return true;
-		} catch (Exception e) {
-			System.out.println("경고) 무인도에 갇혀있기 실패 : " + e);
 		}
 		return false;
 	}
@@ -272,7 +272,7 @@ public class PlayerDAO {
 	}
 
 	// 무인도에 몇턴 갇혔는지 확인
-	public int getwatingturn(int player) {
+	public int getWatingTurn(int player) {
 		String sql = "select w_turn from DesertLand where p_no = ?";
 		int w_turn = -1;
 		try {
@@ -304,19 +304,4 @@ public class PlayerDAO {
 		return false;
 	}
 
-	// 비아(9/29) - 전체 플레이어 삭제 메소드
-	public boolean deleteP() {
-		String sql1 = "delete from player"; // SQL 작성
-		String sql2 = "ALTER TABLE player AUTO_INCREMENT = 1"; // auto_increment 초기화
-		try {
-			ps = con.prepareStatement(sql1); // SQL 연결/조작
-			ps.executeUpdate(); // SQL 실행/결과조작
-			ps = con.prepareStatement(sql2); // SQL 연결/조작
-			ps.executeUpdate(); // SQL 실행/결과조작
-			return true; // 반환
-		} catch (Exception e) {
-			System.out.println("경고) 플레이어 삭제 실패 : " + e);
-		}
-		return false;
-	}
 }
