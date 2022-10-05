@@ -37,7 +37,7 @@ public class MainView {
 			whoIsTurn = pCon.getWhoIsTurn();
 			// 부루마블 판 출력
 			new BoardView().showBoard();
-		
+
 			// 주사위
 			int dice = rollDice();
 			// 말 이동
@@ -88,9 +88,9 @@ public class MainView {
 		// 1~6의 숫자 중 랜덤한 정수 반환
 		// 숫자만 보여주기
 
-		if (whoIsTurn%2==1)
+		if (whoIsTurn % 2 == 1)
 			System.out.println("\t\t\t안내) 🐶🏴 " + pCon.getPlayerInfo(whoIsTurn).getP_name() + " 님의 차례입니다.");
-		else if (whoIsTurn%2==0)
+		else if (whoIsTurn % 2 == 0)
 			System.out.println("\t\t\t안내) 🐹🏳 " + pCon.getPlayerInfo(whoIsTurn).getP_name() + " 님의 차례입니다.");
 
 		System.out.print("\t\t\t안내) 주사위 굴립니다");
@@ -100,7 +100,8 @@ public class MainView {
 			System.out.print("..");
 			try {
 				Thread.sleep(1000);
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
 			count++;
 		}
 		System.out.println();
@@ -140,7 +141,7 @@ public class MainView {
 			new BoardView().showBoard();
 			// System.out.println("\t\t\t안내) 말 이동 성공\n");
 			// 플레이어의 다음 자기 차례까지 남은 턴 수(p_turn) 교체
-			//boolean result2 = pCon.changeTurn(player);
+			// boolean result2 = pCon.changeTurn(player);
 			pCon.changeTurn(player);
 			// if (result2)
 			// System.out.println("\t\t\t안내) 플레이어 턴 수 교체 성공\n");
@@ -168,11 +169,12 @@ public class MainView {
 			hostingOlympics(whoIsTurn);
 			return;
 		} else if (n_no == 16) {
-			//비아 - 황금열쇠 무인도 탈출권 소유 여부에 따른 처리
+			// 비아 - 황금열쇠 무인도 탈출권 소유 여부에 따른 처리
 			int result = gCon.doesHaveIt();
-			if(result != 0 && result == whoIsTurn) {		//황금열쇠 무인도 탈출권을 가지고 있으면
+			if (result != 0 && result == whoIsTurn) { // 황금열쇠 무인도 탈출권을 가지고 있으면
 				useGoldKey(whoIsTurn, 10);
-			}else moveDesertIsland(whoIsTurn);		//황금열쇠 무인도 탈출권을 가지고 있지 않으면
+			} else
+				moveDesertIsland(whoIsTurn); // 황금열쇠 무인도 탈출권을 가지고 있지 않으면
 			return;
 		}
 		// 1: 플레이어1 땅 / 2: 플레이어2 땅 / null: 땅 주인 없음
@@ -284,7 +286,7 @@ public class MainView {
 		if (!result.isEmpty()) {
 			System.out.println("\t\t\t번호 \t 이름 \t 내용");
 			for (GoldkeyDTO dto : result) {
-				System.out.println("\t\t\t"+dto.getC_num() + "\t" + dto.getC_name() + "\t" + dto.getC_coment());
+				System.out.println("\t\t\t" + dto.getC_num() + "\t" + dto.getC_name() + "\t" + dto.getC_coment());
 			} // for end
 		} // if
 	}// goldKeyList
@@ -297,22 +299,44 @@ public class MainView {
 		// 2. 1번이 true이면 황금 열쇠 사용
 		if (usable_result) {
 			boolean result = gCon.useGoldKey(c_no);
-			if (result)  System.out.println("\t\t\t안내) 황금열쇠 사용 완료했습니다.");
-			else  System.out.println("\t\t\t안내) 황금열쇠 사용 실패했습니다.");
-		} else  System.out.println("\t\t\t안내)"+ c_no +"은 사용 가능한 황금열쇠 번호가 아닙니다.");
+			if (result)
+				System.out.println("\t\t\t안내) 황금열쇠 사용 완료했습니다.");
+			else
+				System.out.println("\t\t\t안내) 황금열쇠 사용 실패했습니다.");
+		} else
+			System.out.println("\t\t\t안내)" + c_no + "은 사용 가능한 황금열쇠 번호가 아닙니다.");
 	}
 
 	// 예은 - 13. 황금 열쇠 뽑기 메소드 [R,U]
 	void getGoldKey(int player) {
 		// 황금 열쇠는 랜덤 - 범위는 황금 열쇠 개수 10개
-		Random random = new Random();
-		int goldrandom = random.nextInt(10) + 1;
-		boolean result = gCon.getGoldKey(player, goldrandom);
-		if (result) {
-			System.out.println("\t\t\t안내) 황금열쇠를 뽑았습니다" + goldrandom);
-			goldKeyList(player);
+		while (true) {
+			Random random = new Random();
+			int goldrandom = random.nextInt(10) + 1;
+			boolean TF = getGoldkeyTF(goldrandom);
+			if (TF == false) {
+				boolean result = gCon.getGoldKey(player, goldrandom);
+
+				if (result) {
+					System.out.println("\t\t\t안내) 황금열쇠를 뽑았습니다." + goldrandom);
+					goldKeyList(player);
+				}
+				break;
+			}
 		}
 	}// getGoldKey end
+		// 예은 황금열쇠 기능 추가
+
+	boolean getGoldkeyTF(int c_num) {
+		int result = gCon.getGoldkeyTF(c_num);
+		boolean TFB = true;
+		if (result == -1) {
+			TFB = true;
+		} else if (result == 0) {// 아무도 사용안한 카드가 나오면
+			TFB = false;
+		}
+		return TFB;
+	}
 
 	// 유정,수현 - 14. 무인도 메소드 - 2턴 쉼 [U]
 	void moveDesertIsland(int player) {
@@ -389,6 +413,7 @@ public class MainView {
 		}
 
 	}
+
 	// 수현 10/5 수정!!
 	// 수현 - 17. 땅 매각 메소드 [U]
 	void saleLand(int player, int n_no) {
@@ -422,38 +447,43 @@ public class MainView {
 		}
 	}
 
-	//수현 - 플레이어 삭제!
+	// 수현 - 플레이어 삭제!
 	void offPlayer() {
-		System.out.print("\t\t\t게임종료? 1:네 2:아니오"); int ch=sc.nextInt();
-		if(ch==1) {
+		System.out.print("\t\t\t게임종료? 1:네 2:아니오");
+		int ch = sc.nextInt();
+		if (ch == 1) {
 			System.out.println("\t\t\t안내) 게임이 종료됐습니다.");
 			System.out.println("\t\t\t안내) 남은 자산을 비교합니다.");
-			//현금
-			ArrayList<PlayerDTO> list=pCon.offPlayerMoney();
+			// 현금
+			ArrayList<PlayerDTO> list = pCon.offPlayerMoney();
 			PlayerDTO dto1 = list.get(0);
 			PlayerDTO dto2 = list.get(1);
-			//부동산
+			// 부동산
 			int n_price1 = nCon.sumPlayerLand(dto1.getP_no());
 			int n_price2 = nCon.sumPlayerLand(dto2.getP_no());
-			
-			System.out.println("\t\t\t안내) "+dto1.getP_name()+" : "+dto1.getP_money()+n_price1);
-			System.out.println("\t\t\t안내) "+dto2.getP_name()+" : "+dto2.getP_money()+n_price2);	
-			
-			if((dto1.getP_money()+n_price1) > (dto2.getP_money()+n_price2)) {System.out.println("\t\t\t안내) "+dto1.getP_name()+"이가 이겼습니다.");}
-			else if(dto1.getP_money() < (dto2.getP_money()+n_price2)) {System.out.println("\t\t\t안내) "+dto2.getP_name()+"이가 이겼습니다.");}
-			else System.out.println("\t\t\t안내) 비겼습니다.");
-			//소유자 초기화
+
+			System.out.println("\t\t\t안내) " + dto1.getP_name() + " : " + dto1.getP_money() + n_price1);
+			System.out.println("\t\t\t안내) " + dto2.getP_name() + " : " + dto2.getP_money() + n_price2);
+
+			if ((dto1.getP_money() + n_price1) > (dto2.getP_money() + n_price2)) {
+				System.out.println("\t\t\t안내) " + dto1.getP_name() + "이가 이겼습니다.");
+			} else if (dto1.getP_money() < (dto2.getP_money() + n_price2)) {
+				System.out.println("\t\t\t안내) " + dto2.getP_name() + "이가 이겼습니다.");
+			} else
+				System.out.println("\t\t\t안내) 비겼습니다.");
+			// 소유자 초기화
 			nCon.resetLand();
-			// 황금열쇠 초기화 
+			// 황금열쇠 초기화
 			gCon.resetGoldKey();
-			
-			boolean result=pCon.offPlayer();
-			if(result) {
+
+			boolean result = pCon.offPlayer();
+			if (result) {
 				System.out.println("\t\t\t안내) 정상적으로 초기화 완료");
 				play();
-			}else System.out.println("초기화 문제있음");
+			} else
+				System.out.println("초기화 문제있음");
 		}
-		
+
 	}
 
 }

@@ -61,7 +61,23 @@ public class GoldkeyDAO {
 		}
 		return false;
 	}
-	
+
+	// 예은 황금열쇠 기능 추가
+	public int getGoldkeyTF(int c_num) {
+		String sql = "select c_use from gold_key where p_no is null and c_num=?";
+		int result = -1;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, c_num);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt(1);
+				return result; // 사용 안했으면 0
+			}
+		} catch (Exception e) { System.out.println("경고) tf 실패 : " + e); }
+		return result; // 사용했으면 -1
+	}
+
 	// 비아 - 플레이어의 무인도 탈출권 소유 여부 확인 로직
 	public int doesHaveIt() {
 		String sql = "select p_no from gold_key where c_num = 10"; // SQL 작성
@@ -133,15 +149,15 @@ public class GoldkeyDAO {
 
 	// 수현 - 황금열쇠 초기화
 	public boolean resetGoldKey() {
-		String sql="update gold_key set c_use=0 ,p_no=null";
+		String sql = "update gold_key set c_use=0 ,p_no=null";
 		try {
-			ps=con.prepareStatement(sql);
+			ps = con.prepareStatement(sql);
 			ps.executeUpdate();
 			return true;
-		} catch (Exception e) {System.out.println("황금열쇠 초기화 오류 " +e);}
+		} catch (Exception e) {
+			System.out.println("황금열쇠 초기화 오류 " + e);
+		}
 		return false;
 	}
-	
-	
-	
+
 }

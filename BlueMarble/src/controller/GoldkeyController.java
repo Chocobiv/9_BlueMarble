@@ -60,8 +60,10 @@ public class GoldkeyController {
 					System.out.println("황금열쇠) 다른 플레이어에게 10만원 받기");
 					// 돈을 지불해야하는 플레이어가 돈이 없을 경우 그냥 종료
 					int payPlayer = 0;
-					if (player == 1) payPlayer = 2;
-					else if (player == 2) payPlayer = 1;
+					if (player == 1)
+						payPlayer = 2;
+					else if (player == 2)
+						payPlayer = 1;
 
 					int p_money = pCon.getPlayerMoney(payPlayer);// 플레이어 자산 호출
 
@@ -69,7 +71,8 @@ public class GoldkeyController {
 					if (p_money >= 100000) {
 						pCon.payCash(payPlayer, 100000);
 						pCon.getPaid(player, 100000);
-					} else System.out.println("안내) 안타깝네요! 상대방의 돈이 10만원 미만이라 지급이 취소됩니다.");
+					} else
+						System.out.println("안내) 안타깝네요! 상대방의 돈이 10만원 미만이라 지급이 취소됩니다.");
 					break;
 				case 8: // 10만원 차감
 					System.out.println("황금열쇠) 10만원 차감");
@@ -79,23 +82,26 @@ public class GoldkeyController {
 					System.out.println("황금열쇠) 상대방이 소유한 땅 무효화");
 					// 상대방이 소유한 땅 목록 가져와서
 					int otherPlayer = 0;
-					if (player == 1) otherPlayer = 2;
-					else if (player == 2) otherPlayer = 1;
+					if (player == 1)
+						otherPlayer = 2;
+					else if (player == 2)
+						otherPlayer = 1;
 					ArrayList<NationDTO> list = pCon.getPlayerLand(otherPlayer);
-					if(!list.isEmpty()) {							//상대방이 소유한 땅이 하나라도 있으면
-						int[] n_no = new int[list.size()+1];		//상대방이 소유한 땅의 n_no 저장할 배열
-						int i = 1;									//인덱스 1부터 시작
-						for(NationDTO nation : list) {
+					if (!list.isEmpty()) { // 상대방이 소유한 땅이 하나라도 있으면
+						int[] n_no = new int[list.size() + 1]; // 상대방이 소유한 땅의 n_no 저장할 배열
+						int i = 1; // 인덱스 1부터 시작
+						for (NationDTO nation : list) {
 							n_no[i] = nation.getN_no();
 							i++;
 						}
 						Random random = new Random();
-						int rd = random.nextInt(n_no.length)+2;		//2부터
+						int rd = random.nextInt(n_no.length) + 2; // 2부터
 						// 땅의 소유자를 삭제시키고 매각 돈을 받지 못함
 						nCon.deleteLandlord(rd);
 						NationDTO nation = nCon.getNationInfo(rd);
-						System.out.println("안내) "+nation.getN_name()+" 을 무효화했습니다.");
-					}else System.out.println("안내) 안타깝네요! 상대방이 소유하고 있는 땅이 없어서 무효화가 취소됩니다.");	//상대방이 소유한 땅이 없으면
+						System.out.println("안내) " + nation.getN_name() + " 을 무효화했습니다.");
+					} else
+						System.out.println("안내) 안타깝네요! 상대방이 소유하고 있는 땅이 없어서 무효화가 취소됩니다."); // 상대방이 소유한 땅이 없으면
 					break;
 				case 10: // 무인도 탈출권
 					System.out.println("황금열쇠) 무인도 탈출권");
@@ -107,11 +113,16 @@ public class GoldkeyController {
 		return false;
 	}
 
+	// 예은 황금열쇠 기능 추가
+	public int getGoldkeyTF(int c_use) {
+		return GoldkeyDAO.getInstance().getGoldkeyTF(c_use);
+	}
+
 	// 비아 - 황금 열쇠 사용 로직
 	public boolean useGoldKey(int c_no) {// ★비아추가★
 		return GoldkeyDAO.getInstance().useGoldKey(c_no);
 	}
-	
+
 	// 비아 - 플레이어의 무인도 탈출권 소유 여부 확인 로직
 	public int doesHaveIt() {
 		return GoldkeyDAO.getInstance().doesHaveIt();
@@ -136,10 +147,10 @@ public class GoldkeyController {
 	boolean escapeFail(int player) {
 		return false;
 	}
-	
-	//수현 - 황금열쇠 초기화
+
+	// 수현 - 황금열쇠 초기화
 	public boolean resetGoldKey() {
 		return GoldkeyDAO.getInstance().resetGoldKey();
 	}
-	
+
 }
