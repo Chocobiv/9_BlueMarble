@@ -16,6 +16,7 @@ create table player(
    p_name varchar(10) ,
     p_money int , 
     p_turn int,
+    p_switch tinyint,
     b_no int,            -- 플레이어의 현재 위치
     foreign key ( b_no ) references board ( b_no )
 );
