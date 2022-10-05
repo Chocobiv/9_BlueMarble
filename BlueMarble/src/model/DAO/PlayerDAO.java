@@ -128,7 +128,7 @@ public class PlayerDAO {
 		return false;
 	}
 
-	//유정
+	// 유정
 	public boolean donotmove(int player) {
 		String sql = "update player set b_no = 16 where p_no = ?";
 		try {
@@ -241,43 +241,65 @@ public class PlayerDAO {
 		return list;
 	}
 
-	// 유정 - 15. 무인도 탈출 시도 메소드 - 주사위가 6이 나오면 탈출, 아니면 쉬는 턴 -1 [U]
-	public boolean escapeDesertIsland(int player) { // 플레이어? 가 무인도에 위치하고 턴이 2이면(갇혔으면)
-		String sql1 = "update player set p_turn = 0 where p_turn >= 1 and b_no = 16 and p_no = ?"; // 6이 나올경우 - 탈출 성공한
-																									// 경우
-		try {
-			ps = con.prepareStatement(sql1);
-			ps.setInt(1, player);
-			ps.executeUpdate();
-			return true;
-		} catch (Exception e) {
-			System.out.println("무인도 탈출성공 오류" + e);
-		}
-		return false;
-	}
-
-	public boolean Island(int player) { // 유정 무인도인지 파악하고 피턴2로 바꿔줌
-		String sql = "update player set p_turn = 2 where p_no = ?"; // 턴이 2로 바뀌였는지 빨리 지나가버려서 확인 안됨..
+	// 유정, 수현
+	// 무인도에 도착하면 무인도테이블에 업데이트
+	public boolean moveDesertIsland(int player) {
+		String sql = "insert into DesertLand values(3, ?)";
 		try {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, player);
 			ps.executeUpdate();
 			return true;
 		} catch (Exception e) {
-			System.out.println("무인도인게 파악이 안됩니다." + e);
+			System.out.println("무인도에서 두턴 기다리기 오류" + e);
 		}
 		return false;
 	}
 
-	public boolean escapeDesertIsland2(int player) { // 실패할 경우 - 일단 턴 한번 깎고 그대로 위치하고 누구인지 받고.
-		String sql = "update player set p_turn = 1 and b_no = 16 where p_no = ?";
+	// false면 애초에 무인도에 없는 플레이어,
+	// 무인도에 갇혔는지 확인하면서 w_turn-1
+	public boolean Island(int player) {
+		String sql = "update DesertLand set w_turn= w_turn- 1 where p_no = ?";
 		try {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, player);
 			ps.executeUpdate();
 			return true;
 		} catch (Exception e) {
-			System.out.println("무인도 탈출실패 오류" + e);
+			System.out.println("무인도에갇힌사람 오류" + e);
+		}
+		return false;
+	}
+
+	// 무인도에 몇턴 갇혔는지 확인
+	public int getwatingturn(int player) {
+		String sql = "select w_turn from DesertLand where p_no = ?";
+		int w_turn = -1;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				w_turn = rs.getInt(1);
+			}
+			return w_turn;
+		} catch (Exception e) {
+			System.out.println("웨이팅 턴 밖 출력 오류 " + e);
+		}
+		return w_turn;
+	}
+
+	// 무인도탈출 - 테이블에서 제거
+	public boolean escapeDesertIsland(int player) {
+		String sql = "delete from DesertLand where p_no=?";
+		try {
+
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("무인도 탈출 오류 " + e);
 		}
 		return false;
 	}

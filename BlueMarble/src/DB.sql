@@ -119,3 +119,13 @@ INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('17', '17');
 INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('18', '18');
 INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('19', '19');
 INSERT INTO `team`.`board` (`b_no`, `n_no`) VALUES ('20', '20');
+
+
+
+drop table if exists DesertLand;
+create table  DesertLand(
+	w_turn tinyint,
+	p_no int null,
+    foreign key ( p_no ) references player ( p_no )   
+);
+select * from  DesertLand;
