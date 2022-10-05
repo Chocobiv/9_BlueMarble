@@ -53,6 +53,11 @@ public class NationController {
 		return NationDAO.getInstance().saleLand(player,n_no, n_price);
 	}
 	
+	// 비아 - [황금열쇠] 땅 소유자 삭제 로직
+	public boolean deleteLandlord(int n_no) {
+		return NationDAO.getInstance().deleteLandlord(n_no);
+	}
+	
 	// 비아 - 플레이어가 소유한 땅의 개수 카운트 로직
 	public int countPlayerLand(int player) {
 		return NationDAO.getInstance().countPlayerLand(player);

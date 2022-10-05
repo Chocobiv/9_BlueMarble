@@ -61,6 +61,22 @@ public class GoldkeyDAO {
 		}
 		return false;
 	}
+	
+	// 비아 - 플레이어의 무인도 탈출권 소유 여부 확인 로직
+	public int doesHaveIt() {
+		String sql = "select p_no from gold_key where c_num = 10"; // SQL 작성
+		int result = 0;
+		try {
+			ps = con.prepareStatement(sql); // SQL 연결/조작
+			rs = ps.executeQuery(); // SQL 실행/결과조작
+			if (rs.next())
+				result = rs.getInt(1);
+			return result; // 반환
+		} catch (Exception e) {
+			System.out.println("경고) DAO:doesHaveIt 실패 : " + e);
+		}
+		return result;
+	}
 
 	// ★비아추가★
 	// 황금열쇠 소유자를 가져오는 메소드

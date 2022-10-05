@@ -31,18 +31,18 @@ public class MainView {
 
 	// 1. 게임 실행 메소드
 	public void play() {
-		// goldKeyList(whoIsTurn);
 		// 플레이어 등록
 		addPlayer();
 		while (count != 51) { // count에 따라서 무한반복 종료
 			whoIsTurn = pCon.getWhoIsTurn();
 			// 부루마블 판 출력
 			new BoardView().showBoard();
+		
 			// 주사위
 			int dice = rollDice();
 			// 말 이동
 			// 해당 플레이어가 무인도에 없으면 if문 안 메소드 실행
-			int w_turn = pCon.getwatingturn(whoIsTurn);
+			int w_turn = pCon.getWatingTurn(whoIsTurn);
 			// w_turn이 -1이면 무인도테이블 자체에 p_no이 없음! -> 무인도에 없음!
 			if (w_turn < 0) { //
 				move(whoIsTurn, dice); // 턴인 플레이어를 주사위만큼 이동
@@ -58,7 +58,7 @@ public class MainView {
 
 		}
 		// 승자 알려주기
-		
+
 		//게임종료
 		offPlayer();
 		
@@ -68,20 +68,20 @@ public class MainView {
 	void addPlayer() {
 		try {
 			// 처음 시작할 때 60만원 지급
-			System.out.print("플레이어 1 이름 : ");
+			System.out.print("\t\t\t플레이어 1 이름 : ");
 			String name1 = sc.next();
-			System.out.print("플레이어 2 이름 : ");
+			System.out.print("\t\t\t플레이어 2 이름 : ");
 			String name2 = sc.next();
 			boolean result1 = pCon.addPlayer(name1, 0); // 항상 플레이어1이 먼저 시작
 			boolean result2 = pCon.addPlayer(name2, 1); // 플레이어2는 자기 차례까지 남은 턴: 1
 			if (result1 && result2)
-				System.out.println("안내) 플레이어 등록 성공\n");
+				System.out.println("\t\t\t안내) 플레이어 등록 성공");
 			else
-				System.out.println("안내) 플레이어 등록 실패\n");
+				System.out.println("\t\t\t안내) 플레이어 등록 실패");
 		} catch (InputMismatchException e) {
-			System.out.println("안내) 입력 타입이 잘못되었습니다 : " + e);
+			System.out.println("입력 타입이 잘못되었습니다 : " + e);
 		}
-		System.out.println("안내) 부루마블 게임을 시작합니다!\n");
+		System.out.println("\t\t\t안내) 부루마블 게임을 시작합니다!\n");
 	}
 
 	// 유정 - 3. 부루마블 판 출력 메소드
@@ -90,12 +90,13 @@ public class MainView {
 	int rollDice() {
 		// 1~6의 숫자 중 랜덤한 정수 반환
 		// 숫자만 보여주기
-		if (whoIsTurn%2==1)
-			System.out.println("안내) 🐶🏴 " + pCon.getPlayerInfo(whoIsTurn).getP_name() + " 님의 차례입니다.");
-		else if (whoIsTurn%2==0)
-			System.out.println("안내) 🐹🏳 " + pCon.getPlayerInfo(whoIsTurn).getP_name() + " 님의 차례입니다.");
 
-		System.out.print("안내) 주사위 굴립니다");
+		if (whoIsTurn%2==1)
+			System.out.println("\t\t\t안내) 🐶🏴 " + pCon.getPlayerInfo(whoIsTurn).getP_name() + " 님의 차례입니다.");
+		else if (whoIsTurn%2==0)
+			System.out.println("\t\t\t안내) 🐹🏳 " + pCon.getPlayerInfo(whoIsTurn).getP_name() + " 님의 차례입니다.");
+
+		System.out.print("\t\t\t안내) 주사위 굴립니다");
 
 		int count = 0;
 		while (count < 2) {
@@ -141,21 +142,19 @@ public class MainView {
 		if (result) {
 			// **비아추가** 부루마블 판 출력
 			new BoardView().showBoard();
-			// System.out.println("안내) 말 이동 성공\n");
-			// Island(player); // 유정 테스트중!
+			// System.out.println("\t\t\t안내) 말 이동 성공\n");
 			// 플레이어의 다음 자기 차례까지 남은 턴 수(p_turn) 교체
-			boolean result2 = pCon.changeTurn(player);
+			//boolean result2 = pCon.changeTurn(player);
+			pCon.changeTurn(player);
 			// if (result2)
-			// System.out.println("안내) 플레이어 턴 수 교체 성공\n");
+			// System.out.println("\t\t\t안내) 플레이어 턴 수 교체 성공\n");
 			// else
-			// System.out.println("안내) 플레이어 턴 수 교체 실패\n");
+			// System.out.println("\t\t\t안내) 플레이어 턴 수 교체 실패\n");
 		} else
-			System.out.println("안내) 말 이동 실패\n");
+			System.out.println("\t\t\t안내) 말 이동 실패\n");
 
 		// 주사위 나온만큼 이동한 현재 위치
 		move_b_no = pCon.getLocation(player);
-		// 현재 말 위치 출력(**나중에 판 구현되면 삭제해야함**)
-		// System.out.println("플레이어" + player + "의 현재위치 : " + move_b_no);
 	}
 
 	// 수현 - 6. 이동한 땅의 주인 존재 여부 확인 메소드 [R]
@@ -164,7 +163,7 @@ public class MainView {
 	void isExistLandlord(int whoIsTurn, int n_no) {
 		// whoIsTurn : 누구 턴? (DB : p_no)
 		if (n_no == 1) {
-			System.out.println("안내) 출발지입니다.");
+			System.out.println("\t\t\t안내) 출발지입니다.");
 			return;
 		} else if (n_no == 6) {
 			getGoldKey(whoIsTurn);
@@ -173,7 +172,11 @@ public class MainView {
 			hostingOlympics(whoIsTurn);
 			return;
 		} else if (n_no == 16) {
-			moveDesertIsland(whoIsTurn);
+			//비아 - 황금열쇠 무인도 탈출권 소유 여부에 따른 처리
+			int result = gCon.doesHaveIt();
+			if(result != 0 && result == whoIsTurn) {		//황금열쇠 무인도 탈출권을 가지고 있으면
+				useGoldKey(whoIsTurn, 10);
+			}else moveDesertIsland(whoIsTurn);		//황금열쇠 무인도 탈출권을 가지고 있지 않으면
 			return;
 		}
 		// 1: 플레이어1 땅 / 2: 플레이어2 땅 / null: 땅 주인 없음
@@ -181,11 +184,11 @@ public class MainView {
 		nationdto = nCon.getNationInfo(n_no);// 땅 정보 호출
 		int p_money = pCon.getPlayerMoney(whoIsTurn);// 플레이어 자산 호출
 		if (p_no == 0) {// 빈 땅일때
-			System.out.println("안내) 빈땅을 구입할 수 있습니다.\n");
-			System.out.println("안내) " + nationdto.getN_name() + "의 가격은 " + nationdto.getN_price() + "입니다.");
-			System.out.println("안내) 현재 자산은 " + p_money + " 원 입니다.\n");
+			System.out.println("\t\t\t안내) 빈땅을 구입할 수 있습니다.\n");
+			System.out.println("\t\t\t안내) " + nationdto.getN_name() + "의 가격은 " + nationdto.getN_price() + "입니다.");
+			System.out.println("\t\t\t안내) 현재 자산은 " + p_money + " 원 입니다.\n");
 			try {// try 안에 어디까지 넣어야되는걸까...
-				System.out.print("안내) 땅을 구입하시겠습니까? [구입 : 1][포기 : 2]");
+				System.out.print("\t\t\t안내) 땅을 구입하시겠습니까? [구입 : 1][포기 : 2]");
 				int ch = sc.nextInt();
 				if (ch == 1) {
 					buyLand(whoIsTurn, n_no);
@@ -199,10 +202,10 @@ public class MainView {
 			}
 
 		} else if (p_no == whoIsTurn) {// 내 소유 땅일때
-			System.out.println("안내) 이미 소유한 땅입니다.");
+			System.out.println("\t\t\t안내) 이미 소유한 땅입니다.");
 			return;
 		} else if (p_no != whoIsTurn) {// 상대방 땅일때
-			System.out.println("안내) 안타깝게도 상대방 땅입니다. 통행료를 지불해주세요.\n");
+			System.out.println("\t\t\t안내) 안타깝게도 상대방 땅입니다. 통행료를 지불해주세요.\n");
 
 			// 비아 - 통행료 지불 전에 통행료 패스 황금열쇠 가지고 있는지 확인
 			int isPlayerGoldKey = GoldkeyDAO.getInstance().isPlayerGoldKey(3);
@@ -225,12 +228,12 @@ public class MainView {
 			boolean result = nCon.buyLand(player, n_no, nationdto.getN_price());
 			p_money = pCon.getPlayerMoney(player); // 구매 후 자산 업데이트 하고 한번 더 호출
 			if (result) {// 제대로 업데이트완료했으면
-				System.out.println("안내) 땅 구매 완료했습니다.\n");
+				System.out.println("\t\t\t안내) 땅 구매 완료했습니다.\n");
 
-				System.out.println("현재 남은 자산은 " + p_money + "원 입니다.");
+				System.out.println("\t\t\t안내) 현재 남은 자산은 " + p_money + "원 입니다.");
 			}
 		} else {
-			System.out.println("안내) 자산부족으로 실패했습니다.");
+			System.out.println("\t\t\t안내) 자산부족으로 실패했습니다.");
 		}
 	}
 
@@ -239,21 +242,21 @@ public class MainView {
 		// 요기 매개변수 land_no 이었는데 n_no으로 통일시키기 위해 변경!!
 		nationdto = nCon.getNationInfo(n_no);// 땅 정보 호출
 		int p_money = pCon.getPlayerMoney(player);// 플레이어 자산 호출 // 메소드 3개에서 반복되고있음 물어보고 전역으로 사용하던가 해야할듯!
-		System.out.println("안내) 현재 보유한 자산은 " + p_money + "원 입니다.");
-		System.out.println("안내) " + nationdto.getN_name() + "  통행료는 " + nationdto.getN_toll_fee() + "원 입니다.\n");
+		System.out.println("\t\t\t안내) 현재 보유한 자산은 " + p_money + "원 입니다.");
+		System.out.println("\t\t\t안내) " + nationdto.getN_name() + "  통행료는 " + nationdto.getN_toll_fee() + "원 입니다.\n");
 
 		// 해당 플레이어 자산에서 통행료를 지불했을때 0 이하가 되면 매각 메소드 실행
 		if ((p_money - nationdto.getN_toll_fee()) < 0) {
-			System.out.println("안내) 현재 자산이 부족해 통행료를 지불할 수 없습니다.\n");
+			System.out.println("\t\t\t안내) 현재 자산이 부족해 통행료를 지불할 수 없습니다.\n");
 			saleLand(player, n_no);
 		} else {
 			boolean result = pCon.payTollFee(player, nationdto.getN_toll_fee());// 수현(10/1) - 매개변수 n_no에서 통행료로 변경!
 			p_money = pCon.getPlayerMoney(player);
 			if (result) {
-				System.out.println("안내) 통행료 지불이 완료됐습니다. 현재 자산은 " + p_money + "원 입니다.");
+				System.out.println("\t\t\t안내) 통행료 지불이 완료됐습니다. 현재 자산은 " + p_money + "원 입니다.");
 				boolean result2 = pCon.takeTollFee(player, nationdto.getN_toll_fee());
 				if (result2) {
-					System.out.println("안내) 상대방에게 통행료 지급이 완료됐습니다.");
+					System.out.println("\t\t\t안내) 상대방에게 통행료 지급이 완료됐습니다.");
 				}
 			}
 		}
@@ -263,9 +266,9 @@ public class MainView {
 	public void getPaid(int player, int pay) {
 		boolean result = pCon.getPaid(player, pay);
 		if (result) {
-			System.out.println("안내) 월급이 입금됐습니다.");
+			System.out.println("\t\t\t안내) 월급이 입금됐습니다.");
 		} else {
-			System.out.println("안내) 월급 입금 실패~!");
+			System.out.println("\t\t\t안내) 월급 입금 실패~!");
 		}
 	}
 
@@ -273,9 +276,9 @@ public class MainView {
 	void payCash(int player, int cash) {
 		boolean result = pCon.payCash(player, cash);
 		if (result) {
-			System.out.println("안내) 금액이 차감되었습니다.");
+			System.out.println("\t\t\t안내) 금액이 차감되었습니다.");
 		} else {
-			System.out.println("안내) 금액 차감 실패~!");
+			System.out.println("\t\t\t안내) 금액 차감 실패~!");
 		}
 	}
 
@@ -298,14 +301,9 @@ public class MainView {
 		// 2. 1번이 true이면 황금 열쇠 사용
 		if (usable_result) {
 			boolean result = gCon.useGoldKey(c_no);
-			if (result) {
-				System.out.println("안내) 황금열쇠 사용 완료했습니다.");
-			} else {
-				System.out.println("안내) 황금열쇠 사용 실패했습니다.");
-			}
-		} else {
-			System.out.println("안내) 사용 가능한 황금열쇠 번호가 아닙니다.");
-		}
+			if (result)  System.out.println("\t\t\t안내) 황금열쇠 사용 완료했습니다.");
+			else  System.out.println("\t\t\t안내) 황금열쇠 사용 실패했습니다.");
+		} else  System.out.println("\t\t\t안내)"+ c_no +"은 사용 가능한 황금열쇠 번호가 아닙니다.");
 	}
 
 	// 예은 - 13. 황금 열쇠 뽑기 메소드 [R,U]
@@ -315,7 +313,7 @@ public class MainView {
 		int goldrandom = random.nextInt(10) + 1;
 		boolean result = gCon.getGoldKey(player, goldrandom);
 		if (result) {
-			System.out.println("황금열쇠를 뽑았습니다" + goldrandom);
+			System.out.println("\t\t\t안내) 황금열쇠를 뽑았습니다" + goldrandom);
 			goldKeyList(player);
 		}
 	}// getGoldKey end
@@ -325,8 +323,8 @@ public class MainView {
 		// player 받아서 DB 무인도테이블에 w_no=2
 		boolean result = pCon.moveDesertIsland(player); // 무인도 테이블에 업데이트
 		if (result) {
-			System.out.println("안내) 무인도에 도착했습니다.");
-			System.out.println("안내) 지금부터 2턴을 쉬어야하며, 주사위가 6이 나올 경우 탈출 가능합니다.");
+			System.out.println("\t\t\t안내) 무인도에 도착했습니다.");
+			System.out.println("\t\t\t안내) 지금부터 2턴을 쉬어야하며, 주사위가 6이 나올 경우 탈출 가능합니다.");
 		} else {
 			System.out.println("무인도 감금에 문제가 생겼습니다.");
 		}
@@ -337,9 +335,9 @@ public class MainView {
 		// DB 무인도테이블에 p_no있는 애한테 w_no= 1차감 /true면 무인도 false면 무인도아님
 		boolean result = pCon.Island(player); // w_turn 차감
 		if (result) {
-			System.out.println("안내) 무인도 감금 횟수 차감됐습니다.");
+			System.out.println("\t\t\t안내) 무인도 감금 횟수 차감됐습니다.");
 		} else {
-			System.out.println("무인도 횟수 차감 문제있음");
+			System.out.println("무인도 횟수 차감 문제 있음");
 		}
 	}
 
@@ -347,11 +345,11 @@ public class MainView {
 	// w_turn이 0이면 바로 탈출
 	// 주사위 6이면 탈출
 	void escapeDesertIsland(int player, int dice) {
-		int w_turn = pCon.getwatingturn(player);
+		int w_turn = pCon.getWatingTurn(player);
 		if (w_turn == 0 || dice == 6) { // 2턴 갇혀있었거나
 			boolean result = pCon.escapeDesertIsland(player); // 무인도 테이블에서 플레이어 삭제
 			if (result) {
-				System.out.println("안내) 무인도 탈출에 성공했습니다.");
+				System.out.println("\t\t\t안내) 무인도 탈출에 성공했습니다.");
 				move(whoIsTurn, dice); // 턴인 플레이어를 주사위만큼 이동
 				isExistLandlord(whoIsTurn, move_b_no);
 			}
@@ -364,21 +362,21 @@ public class MainView {
 		// 이미 개최 중인 올림픽 개최지가 있으면 폐막하고
 		// 새로 개최할 나라(land_no)를 올림픽 개최 중으로 수정
 		// 만약에 플레이어가 소유하지 않은 땅에 개최하지 못하도록 조건\
-		System.out.println("안내) 올림픽 개최 이벤트장소에 도착했습니다.\n");
-		System.out.println("안내) 소유중인 땅중에서 하나를 선택해 통행료를 2배로 받을 수 있습니다.");
-		System.out.println("안내) 상대방이 올림픽을 개최한다면 선택한 땅의 통행료는 다시 기존으로 돌아옵니다.\n");
+		System.out.println("\t\t\t안내) 올림픽 개최 이벤트장소에 도착했습니다.\n");
+		System.out.println("\t\t\t안내) 소유중인 땅중에서 하나를 선택해 통행료를 2배로 받을 수 있습니다.");
+		System.out.println("\t\t\t안내) 상대방이 올림픽을 개최한다면 선택한 땅의 통행료는 다시 기존으로 돌아옵니다.\n");
 
 		ArrayList<NationDTO> list = pCon.getPlayerLand(player); // 플레이어가 소유한 땅 정보
 		// 소유한 땅 없으면 올림픽 개최못하게!
 		if (list.size() == 0) {
-			System.out.println("안내) 아직 소유한 땅이 없어 올림픽을 개최할 수 없습니다.");
+			System.out.println("\t\t\t안내) 아직 소유한 땅이 없어 올림픽을 개최할 수 없습니다.");
 			return;
 		}
 		if (OlympicsLand != 0) {// 이미 다른땅에 올림픽이 개최된 상태라면
 			// 기존 올림픽 개최지 통행료 제자리!
 			boolean result = nCon.closingOlympics(OlympicsLand);
 			if (result) {// 제대로 처리됐으면 다시 0으로 바꿔주기!
-				System.out.println("안내) 기존 개최됐던 올림픽은 폐막됐음을 알립니다.\n");
+				System.out.println("\t\t\t안내) 기존 개최됐던 올림픽은 폐막됐음을 알립니다.\n");
 				OlympicsLand = 0;
 			}
 		}
@@ -386,11 +384,11 @@ public class MainView {
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println((i + 1) + "\t" + list.get(i).getN_name() + "\t" + list.get(i).getN_toll_fee());
 		}
-		System.out.print("안내) 올림픽을 개최할 나라의 번호를 입력해주세요 : ");
+		System.out.print("\t\t\t안내) 올림픽을 개최할 나라의 번호를 입력해주세요 : ");
 		int ch = sc.nextInt();
 		boolean result = nCon.hostingOlympics(list.get(ch - 1).getN_no());
 		if (result) {
-			System.out.println("안내) 올림픽이 정상적으로 개최됐습니다.\n");
+			System.out.println("\t\t\t안내) 올림픽이 정상적으로 개최됐습니다.\n");
 			OlympicsLand = list.get(ch - 1).getN_no();
 		}
 
@@ -400,29 +398,28 @@ public class MainView {
 	void saleLand(int player, int n_no) {
 		// 황금열쇠때문에 금액을 지급해야할 때, 통행료 지불해야할 때 현재 보유 자산에서 지불금액을 차감했을 때 그 금액이 0미만이면
 
-		System.out.println("안내) 자산이 부족해 보유한 땅을 매각해야합니다.\n");
+		System.out.println("\t\t\t안내) 자산이 부족해 보유한 땅을 매각해야합니다.\n");
 		ArrayList<NationDTO> list = pCon.getPlayerLand(player); // 플레이어가 소유한 땅 정보
 
 		// 소유한 땅 없음 -> 게임 종료 메소드 넣어야함!!
 		if (list.size() == 0) {
-			System.out.println("안내) 매각 가능한 땅이 없습니다. 패배하셨습니다.");
+
+			System.out.println("\t\t\t안내) 매각 가능한 땅이 없습니다. 패배하셨습니다.");
 			offPlayer();
-			return; // 게임 종료 메소드 deleteP() 요건가??
 		}
 		try {// 요거 어떻게 써야 번호를 다시 선택하게 할수있을까...//while문을 써야하나...
 			System.out.println("번호\t나라명\t매각가격");
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println((i + 1) + "\t" + list.get(i).getN_name() + "\t" + list.get(i).getN_price());
 			}
-			System.out.print("안내) 매각할 나라의 번호를 입력해주세요 : ");
+			System.out.print("\t\t\t안내) 매각할 나라의 번호를 입력해주세요 : ");
 			int ch = sc.nextInt(); // ch=나라 번호! , 나라 통행료도 넘겨줘야함!
 			// 매각 업데이트
 			boolean result = nCon.saleLand(player, list.get(ch - 1).getN_no(), list.get(ch - 1).getN_price());
 			if (result) {
-				System.out.println("안내) 땅 매각 업데이트 완료했습니다. \n");
+				System.out.println("\t\t\t안내) 땅 매각 업데이트 완료했습니다. \n");
 				payTollFee(player, n_no);
 			}
-
 		} catch (Exception e) {
 			System.out.println("번호로 선택해주세요 ");
 			sc = new Scanner(System.in);
@@ -458,9 +455,6 @@ public class MainView {
 		}
 		
 	}
-
-
-	
 
 }
 //** DB **

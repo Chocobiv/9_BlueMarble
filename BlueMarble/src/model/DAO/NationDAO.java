@@ -116,6 +116,18 @@ public class NationDAO {
 		return false;
 	}
 	
+	// 비아 - [황금열쇠] 땅 소유자 삭제 로직
+	public boolean deleteLandlord(int n_no) {
+		String sql="update nation set p_no=null where n_no=?";
+		try {
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, n_no);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {System.out.println("경고) 땅 소유자 삭제 오류 " +e);}
+		return false;
+	}
+	
 	// 수현 - 올림픽 개최 로직
 	public boolean hostingOlympics(int n_no) {
 		String sql="update nation set n_toll_fee=n_toll_fee*2 where n_no=?";
