@@ -54,8 +54,6 @@ public class MainView {
 
 			count++;
 			pCon.changeTurn(whoIsTurn); // 현재 턴인 플레이어 교체
-			offPlayer(); // 지워야함!!
-
 		}
 		// 게임종료
 		offPlayer();
@@ -449,40 +447,37 @@ public class MainView {
 
 	// 수현 - 플레이어 삭제!
 	void offPlayer() {
-		System.out.print("\t\t\t게임종료? 1:네 2:아니오");
-		int ch = sc.nextInt();
-		if (ch == 1) {
-			System.out.println("\t\t\t안내) 게임이 종료됐습니다.");
-			System.out.println("\t\t\t안내) 남은 자산을 비교합니다.");
-			// 현금
-			ArrayList<PlayerDTO> list = pCon.offPlayerMoney();
-			PlayerDTO dto1 = list.get(0);
-			PlayerDTO dto2 = list.get(1);
-			// 부동산
-			int n_price1 = nCon.sumPlayerLand(dto1.getP_no());
-			int n_price2 = nCon.sumPlayerLand(dto2.getP_no());
 
-			System.out.println("\t\t\t안내) " + dto1.getP_name() + " : " + dto1.getP_money() + n_price1);
-			System.out.println("\t\t\t안내) " + dto2.getP_name() + " : " + dto2.getP_money() + n_price2);
+		System.out.println("\t\t\t안내) 게임이 종료됐습니다.");
+		System.out.println("\t\t\t안내) 남은 자산을 비교합니다.");
+		// 현금
+		ArrayList<PlayerDTO> list = pCon.offPlayerMoney();
+		PlayerDTO dto1 = list.get(0);
+		PlayerDTO dto2 = list.get(1);
+		// 부동산
+		int n_price1 = nCon.sumPlayerLand(dto1.getP_no());
+		int n_price2 = nCon.sumPlayerLand(dto2.getP_no());
 
-			if ((dto1.getP_money() + n_price1) > (dto2.getP_money() + n_price2)) {
-				System.out.println("\t\t\t안내) " + dto1.getP_name() + "이가 이겼습니다.");
-			} else if (dto1.getP_money() < (dto2.getP_money() + n_price2)) {
-				System.out.println("\t\t\t안내) " + dto2.getP_name() + "이가 이겼습니다.");
-			} else
-				System.out.println("\t\t\t안내) 비겼습니다.");
-			// 소유자 초기화
-			nCon.resetLand();
-			// 황금열쇠 초기화
-			gCon.resetGoldKey();
+		System.out.println("\t\t\t안내) " + dto1.getP_name() + " : " + dto1.getP_money() + n_price1);
+		System.out.println("\t\t\t안내) " + dto2.getP_name() + " : " + dto2.getP_money() + n_price2);
 
-			boolean result = pCon.offPlayer();
-			if (result) {
-				System.out.println("\t\t\t안내) 정상적으로 초기화 완료");
-				play();
-			} else
-				System.out.println("초기화 문제있음");
-		}
+		if ((dto1.getP_money() + n_price1) > (dto2.getP_money() + n_price2)) {
+			System.out.println("\t\t\t안내) " + dto1.getP_name() + "이가 이겼습니다.");
+		} else if (dto1.getP_money() < (dto2.getP_money() + n_price2)) {
+			System.out.println("\t\t\t안내) " + dto2.getP_name() + "이가 이겼습니다.");
+		} else
+			System.out.println("\t\t\t안내) 비겼습니다.");
+		// 소유자 초기화
+		nCon.resetLand();
+		// 황금열쇠 초기화
+		gCon.resetGoldKey();
+
+		boolean result = pCon.offPlayer();
+		if (result) {
+			System.out.println("\t\t\t안내) 정상적으로 초기화 완료");
+			play();
+		} else
+			System.out.println("초기화 문제있음");
 
 	}
 
