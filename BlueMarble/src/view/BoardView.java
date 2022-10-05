@@ -13,6 +13,7 @@ public class BoardView {
 	
    public void showBoard() {
 	  whoIsTurn = pCon.getWhoIsTurn();
+	  System.out.println(whoIsTurn);
       NationController nCon = new NationController();
       PlayerController pCon = new PlayerController();
       // DB에서 nation 가져와서 각 판에 출력 [R]
@@ -27,11 +28,15 @@ public class BoardView {
 
       ArrayList<NationDTO> n = nCon.getNations();
       
+      //현재 게임을 진행중인 플레이어 번호 가져옴
+      ArrayList<Integer> player=pCon.getPlayerNo();
+      int p1=player.get(0);
+      int p2=player.get(1);
+      
       //비아 - 플레이어 위치에 따른 말 위치 변경 구현
-      int player1_location = 1;
-      int player2_location = 2;
-      if(whoIsTurn%2==1) {player1_location = pCon.getLocation(whoIsTurn);}
-      if(whoIsTurn%2==0) {player2_location = pCon.getLocation(whoIsTurn);}
+      int player1_location = pCon.getLocation(p1);
+      int player2_location = pCon.getLocation(p2);
+
       String[] player1_piece = {"  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  "};
       for(int i=0;i<20;i++) {
          if(i == player1_location-1) {
@@ -49,8 +54,8 @@ public class BoardView {
       }
       
       //비아 - 플레이어가 소유한 집 표시 구현
-      ArrayList<NationDTO> p1_list = pCon.getPlayerLand(1);
-      ArrayList<NationDTO> p2_list = pCon.getPlayerLand(2);
+      ArrayList<NationDTO> p1_list = pCon.getPlayerLand(p1);
+      ArrayList<NationDTO> p2_list = pCon.getPlayerLand(p2);
       String[] player1_land = {"  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  "};
       for(NationDTO p1_land : p1_list) {
          for(int i=0;i<20;i++) {

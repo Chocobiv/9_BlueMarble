@@ -81,7 +81,7 @@ public class PlayerDAO {
 	
 	// 비아(9/29) - 플레이어의 현재 위치 가져오는 메소드
 	public int getLocation(int player) {
-		String sql = "select b_no from player where p_no = ?"; // SQL 작성
+		String sql = "select b_no from player where p_no = ? and p_switch=1"; // SQL 작성
 		int location = 0;
 		try {
 			ps = con.prepareStatement(sql); // SQL 연결/조작
@@ -260,8 +260,8 @@ public class PlayerDAO {
 		return false;
 	}
 
-	// false면 애초에 무인도에 없는 플레이어,
-	// 무인도에 갇혔는지 확인하면서 w_turn-1
+	
+	// 무인도에 갇힌 플레이어 w_turn-1
 	public boolean Island(int player) {
 		String sql = "update DesertLand set w_turn= w_turn- 1 where p_no = ?";
 		try {
@@ -335,6 +335,21 @@ public class PlayerDAO {
 			return list;
 		} catch (Exception e) {System.out.println("플레이어 off 자산 오류 " +e);}
 		return list;
+	}
+	
+	//수현- 현재 게임을 진행중인 플레이어번호 받아오기
+	public ArrayList<Integer> getPlayerNo() {
+		String sql="select p_no from player where p_switch=1";
+		ArrayList<Integer> player= new ArrayList<>();
+		try {
+			ps=con.prepareStatement(sql);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				player.add(rs.getInt(1));
+			}
+			return player;
+		} catch (Exception e) {System.out.println("게임중인 플레이어번호 오류 " +e);}
+		return null;
 	}
 	
 }

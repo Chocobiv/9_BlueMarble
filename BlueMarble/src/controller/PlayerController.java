@@ -117,4 +117,10 @@ public class PlayerController {
 		return PlayerDAO.getInstance().offPlayerMoney();
 	}
 	
+	// 수현- 게임 진행중인 플레이어 번호
+	public ArrayList<Integer> getPlayerNo(){
+		return PlayerDAO.getInstance().getPlayerNo();
+	}
+	
+	
 }
