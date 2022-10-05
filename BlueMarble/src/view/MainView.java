@@ -39,8 +39,7 @@ public class MainView {
 			new BoardView().showBoard();
 
 			// 주사위
-			//int dice = rollDice();
-			int dice = 5;
+			int dice = rollDice();
 			// 말 이동
 			// 해당 플레이어가 무인도에 없으면 if문 안 메소드 실행
 			int w_turn = pCon.getWatingTurn(whoIsTurn);
@@ -178,7 +177,7 @@ public class MainView {
 		}
 		
 		int count2 = 0;
-		while (count < 2) {
+		while (count2 < 2) {
 			try {
 				Thread.sleep(1000);
 			} catch (Exception e) {
@@ -315,6 +314,17 @@ public class MainView {
 				System.out.println("\t\t\t안내) 황금열쇠 사용 실패했습니다.");
 		} else
 			System.out.println("\t\t\t안내)" + c_no + "은 사용 가능한 황금열쇠 번호가 아닙니다.");
+		
+		
+		int count2 = 0;
+		while (count2 < 2) {
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+			}
+			count2++;
+		}
+		System.out.println();
 	}
 
 	// 예은 - 13. 황금 열쇠 뽑기 메소드 [R,U]
