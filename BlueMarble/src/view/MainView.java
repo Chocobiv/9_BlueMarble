@@ -57,11 +57,8 @@ public class MainView {
 			offPlayer(); // 지워야함!!
 
 		}
-		// 승자 알려주기
-
-		//게임종료
+		// 게임종료
 		offPlayer();
-		
 	}
 
 	// 비아(9/29) - 2. 플레이어 등록 메소드 - 플레이어 이름 입력받아서 DB에 저장 [C]
@@ -103,8 +100,7 @@ public class MainView {
 			System.out.print("..");
 			try {
 				Thread.sleep(1000);
-			} catch (Exception e) {
-			}
+			} catch (Exception e) {}
 			count++;
 		}
 		System.out.println();
@@ -113,22 +109,22 @@ public class MainView {
 		int dice = random.nextInt(6) + 1; // 1~6사이의 주사위
 		switch (dice) {
 		case 1:
-			System.out.println("주사위 : ⚀ " + dice);
+			System.out.println("\t\t\t주사위 : ⚀ " + dice);
 			break;
 		case 2:
-			System.out.println("주사위 : ⚁ " + dice);
+			System.out.println("\t\t\t주사위 : ⚁ " + dice);
 			break;
 		case 3:
-			System.out.println("주사위 : ⚂ " + dice);
+			System.out.println("\t\t\t주사위 : ⚂ " + dice);
 			break;
 		case 4:
-			System.out.println("주사위 : ⚃ " + dice);
+			System.out.println("\t\t\t주사위 : ⚃ " + dice);
 			break;
 		case 5:
-			System.out.println("주사위 : ⚄ " + dice);
+			System.out.println("\t\t\t주사위 : ⚄ " + dice);
 			break;
 		case 6:
-			System.out.println("주사위 : ⚅ " + dice);
+			System.out.println("\t\t\t주사위 : ⚅ " + dice);
 			break;
 		}
 		return dice;
@@ -286,9 +282,9 @@ public class MainView {
 	void goldKeyList(int player) {
 		ArrayList<GoldkeyDTO> result = gCon.goldKeyList(player);
 		if (!result.isEmpty()) {
-			System.out.println("번호 \t 이름 \t 내용");
+			System.out.println("\t\t\t번호 \t 이름 \t 내용");
 			for (GoldkeyDTO dto : result) {
-				System.out.println(dto.getC_num() + "\t" + dto.getC_name() + "\t" + dto.getC_coment());
+				System.out.println("\t\t\t"+dto.getC_num() + "\t" + dto.getC_name() + "\t" + dto.getC_coment());
 			} // for end
 		} // if
 	}// goldKeyList
@@ -428,30 +424,34 @@ public class MainView {
 
 	//수현 - 플레이어 삭제!
 	void offPlayer() {
-		System.out.print("게임종료? 1:네 2:아니오"); int ch=sc.nextInt();
+		System.out.print("\t\t\t게임종료? 1:네 2:아니오"); int ch=sc.nextInt();
 		if(ch==1) {
-		ArrayList<PlayerDTO> list=pCon.offPlayerMoney();
-		System.out.println("안내) 게임이 종료됐습니다.");
-		System.out.println("안내) 남은 자산을 비교합니다.");
-		PlayerDTO dto1 = list.get(0);
-		PlayerDTO dto2 = list.get(1);
-		System.out.println(dto1.getP_name()+"   :   "+dto1.getP_money());
-		System.out.println(dto2.getP_name()+"   :   "+dto2.getP_money());	
-		
-		if(dto1.getP_money() > dto2.getP_money()) {System.out.println(dto1.getP_name()+"이가 이겼습니다.");}
-		else if(dto1.getP_money() < dto2.getP_money()) {System.out.println(dto2.getP_name()+"이가 이겼습니다.");}
-		
-		//소유자 초기화
-		nCon.resetLand();
-		// 황금열쇠 초기화 
-		gCon.resetGoldKey();
-		
-		boolean result=pCon.offPlayer();
-		if(result) {
-			System.out.println("정상적으로 초기화 완료");
-			play();
-		}
-		else {System.out.println("초기화 문제있음");}
+			System.out.println("\t\t\t안내) 게임이 종료됐습니다.");
+			System.out.println("\t\t\t안내) 남은 자산을 비교합니다.");
+			//현금
+			ArrayList<PlayerDTO> list=pCon.offPlayerMoney();
+			PlayerDTO dto1 = list.get(0);
+			PlayerDTO dto2 = list.get(1);
+			//부동산
+			int n_price1 = nCon.sumPlayerLand(dto1.getP_no());
+			int n_price2 = nCon.sumPlayerLand(dto2.getP_no());
+			
+			System.out.println("\t\t\t안내) "+dto1.getP_name()+" : "+dto1.getP_money()+n_price1);
+			System.out.println("\t\t\t안내) "+dto2.getP_name()+" : "+dto2.getP_money()+n_price2);	
+			
+			if((dto1.getP_money()+n_price1) > (dto2.getP_money()+n_price2)) {System.out.println("\t\t\t안내) "+dto1.getP_name()+"이가 이겼습니다.");}
+			else if(dto1.getP_money() < (dto2.getP_money()+n_price2)) {System.out.println("\t\t\t안내) "+dto2.getP_name()+"이가 이겼습니다.");}
+			else System.out.println("\t\t\t안내) 비겼습니다.");
+			//소유자 초기화
+			nCon.resetLand();
+			// 황금열쇠 초기화 
+			gCon.resetGoldKey();
+			
+			boolean result=pCon.offPlayer();
+			if(result) {
+				System.out.println("\t\t\t안내) 정상적으로 초기화 완료");
+				play();
+			}else System.out.println("초기화 문제있음");
 		}
 		
 	}

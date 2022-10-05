@@ -321,7 +321,7 @@ public class PlayerDAO {
 	
 	// 수현 - 게임종료시 플레이어들 자산 가져오기
 	public ArrayList<PlayerDTO> offPlayerMoney() {
-		String sql="select p_name,p_money from player where p_switch=1";
+		String sql="select p_name,p_no,p_money from player where p_switch=1";
 		ArrayList<PlayerDTO> list= new ArrayList<>();
 		try {
 			ps=con.prepareStatement(sql);
@@ -329,7 +329,8 @@ public class PlayerDAO {
 			while(rs.next()) {
 				PlayerDTO dto=new PlayerDTO();
 				dto.setP_name(rs.getString(1));
-				dto.setP_money(rs.getInt(2));
+				dto.setP_no(rs.getInt(2));
+				dto.setP_money(rs.getInt(3));
 				list.add(dto);
 			}
 			return list;

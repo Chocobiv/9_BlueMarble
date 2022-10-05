@@ -168,6 +168,22 @@ public class NationDAO {
 		return count;
 	}
 	
+	// 비아 - 플레이어가 소유한 땅의 땅가격 총합 메소드
+	public int sumPlayerLand(int player) {
+		String sql = "SELECT SUM(n_price) FROM nation where p_no = ?";
+		int result = 0;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, player);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				result = rs.getInt(1);
+			}
+			return result;
+		} catch (Exception e) { System.out.println("경고) 플레이어가 소유한 땅의 땅가격 총합 실패 " + e); }
+		return result;
+	}
+	
 	// 수현 - 땅 소유자 초기화
 	public boolean resetLand() {
 		String sql="update nation set p_no=null";
