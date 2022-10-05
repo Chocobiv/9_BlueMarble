@@ -175,6 +175,17 @@ public class MainView {
 				moveDesertIsland(whoIsTurn); // 황금열쇠 무인도 탈출권을 가지고 있지 않으면
 			return;
 		}
+		
+		int count2 = 0;
+		while (count < 2) {
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+			}
+			count2++;
+		}
+		System.out.println();
+		
 		// 1: 플레이어1 땅 / 2: 플레이어2 땅 / null: 땅 주인 없음
 		int p_no = nCon.isExistLandlord(whoIsTurn, n_no); // 소유자여부 가져오기
 		nationdto = nCon.getNationInfo(n_no);// 땅 정보 호출
@@ -316,8 +327,16 @@ public class MainView {
 				boolean result = gCon.getGoldKey(player, goldrandom);
 
 				if (result) {
-					System.out.println("\t\t\t안내) 황금열쇠를 뽑았습니다." + goldrandom);
+					System.out.println("\t\t\t안내) 황금열쇠를 뽑았습니다.");
 					goldKeyList(player);
+					//황금열쇠 바로 사용해야 하는 것 바로 사용
+					switch (goldrandom) {
+						case 1: case 2: case 4: case 5: case 6: case 7: case 8: case 9:
+							useGoldKey(player, goldrandom);
+							break;
+						default:
+							break;
+					}
 				}
 				break;
 			}
