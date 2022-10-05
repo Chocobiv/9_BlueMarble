@@ -39,7 +39,8 @@ public class MainView {
 			new BoardView().showBoard();
 
 			// 주사위
-			int dice = rollDice();
+			//int dice = rollDice();
+			int dice = 5;
 			// 말 이동
 			// 해당 플레이어가 무인도에 없으면 if문 안 메소드 실행
 			int w_turn = pCon.getWatingTurn(whoIsTurn);

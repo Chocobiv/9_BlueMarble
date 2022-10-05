@@ -27,37 +27,37 @@ public class GoldkeyController {
 			if (isUsableGoldKey == 0) {
 				switch (c_no) {
 				case 1: // 땅 구매한것당 3만씩 지불
-					System.out.println("황금열쇠) 땅 구매한것당 3만씩 지불");
+					System.out.println("\t\t\t황금열쇠) 땅 구매한것당 3만씩 지불");
 					// 구매한 땅 카운트해와서
 					int count1 = nCon.countPlayerLand(player);
 					// 지불
 					pCon.payCash(player, count1 * 30000);
 					break;
 				case 2: // 땅 구매한것당 1만씩 지불
-					System.out.println("황금열쇠) 땅 구매한것당 1만씩 지불");
+					System.out.println("\t\t\t황금열쇠) 땅 구매한것당 1만씩 지불");
 					// 구매한 땅 카운트해와서
 					int count2 = nCon.countPlayerLand(player);
 					// 지불
 					pCon.payCash(player, count2 * 10000);
 					break;
 				case 3: // 1회 통행료 패스
-					System.out.println("황금열쇠) 1회 통행료 패스");
-					System.out.println("안내) 통행료 패스 완료!");
+					System.out.println("\t\t\t황금열쇠) 1회 통행료 패스");
+					System.out.println("\t\t\t안내) 통행료 패스 완료!");
 					break;
 				case 4: // 뒤로 두칸 이동
-					System.out.println("황금열쇠) 뒤로 두칸 이동");
+					System.out.println("\t\t\t황금열쇠) 뒤로 두칸 이동");
 					pCon.move(player, -2);
 					break;
 				case 5: // 출발지로 이동
-					System.out.println("황금열쇠) 출발지로 이동");
+					System.out.println("\t\t\t황금열쇠) 출발지로 이동");
 					pCon.moveStart(player);
 					break;
 				case 6: // 20만원 당첨
-					System.out.println("황금열쇠) 20만원 당첨");
+					System.out.println("\t\t\t황금열쇠) 20만원 당첨");
 					pCon.getPaid(player, 200000);
 					break;
 				case 7: // 다른 플레이어에게 10만원 받기
-					System.out.println("황금열쇠) 다른 플레이어에게 10만원 받기");
+					System.out.println("\t\t\t황금열쇠) 다른 플레이어에게 10만원 받기");
 					// 돈을 지불해야하는 플레이어가 돈이 없을 경우 그냥 종료
 					int payPlayer = 0;
 					if (player == 1)
@@ -72,14 +72,14 @@ public class GoldkeyController {
 						pCon.payCash(payPlayer, 100000);
 						pCon.getPaid(player, 100000);
 					} else
-						System.out.println("안내) 안타깝네요! 상대방의 돈이 10만원 미만이라 지급이 취소됩니다.");
+						System.out.println("\t\t\t안내) 안타깝네요! 상대방의 돈이 10만원 미만이라 지급이 취소됩니다.");
 					break;
 				case 8: // 10만원 차감
-					System.out.println("황금열쇠) 10만원 차감");
+					System.out.println("\t\t\t황금열쇠) 10만원 차감");
 					pCon.payCash(player, 100000);
 					break;
 				case 9: // 상대방이 소유한 땅 무효화
-					System.out.println("황금열쇠) 상대방이 소유한 땅 무효화");
+					System.out.println("\t\t\t황금열쇠) 상대방이 소유한 땅 무효화");
 					// 상대방이 소유한 땅 목록 가져와서
 					int otherPlayer = 0;
 					if (player == 1)
@@ -99,12 +99,12 @@ public class GoldkeyController {
 						// 땅의 소유자를 삭제시키고 매각 돈을 받지 못함
 						nCon.deleteLandlord(rd);
 						NationDTO nation = nCon.getNationInfo(rd);
-						System.out.println("안내) " + nation.getN_name() + " 을 무효화했습니다.");
+						System.out.println("\t\t\t안내) " + nation.getN_name() + " 을 무효화했습니다.");
 					} else
-						System.out.println("안내) 안타깝네요! 상대방이 소유하고 있는 땅이 없어서 무효화가 취소됩니다."); // 상대방이 소유한 땅이 없으면
+						System.out.println("\t\t\t안내) 안타깝네요! 상대방이 소유하고 있는 땅이 없어서 무효화가 취소됩니다."); // 상대방이 소유한 땅이 없으면
 					break;
 				case 10: // 무인도 탈출권
-					System.out.println("황금열쇠) 무인도 탈출권");
+					System.out.println("\t\t\t황금열쇠) 무인도 탈출권");
 					break;
 				}
 				return true;
