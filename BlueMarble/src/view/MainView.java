@@ -376,7 +376,7 @@ public class MainView {
 				OlympicsLand = 0;
 			}
 		}
-		System.out.println("번호\t나라명\t현재 통행료");
+		System.out.println("\t\t\t번호\t나라명\t현재 통행료");
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println((i + 1) + "\t" + list.get(i).getN_name() + "\t" + list.get(i).getN_toll_fee());
 		}
@@ -404,7 +404,7 @@ public class MainView {
 			offPlayer();
 		}
 		try {// 요거 어떻게 써야 번호를 다시 선택하게 할수있을까...//while문을 써야하나...
-			System.out.println("번호\t나라명\t매각가격");
+			System.out.println("\t\t\t번호\t나라명\t매각가격");
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println((i + 1) + "\t" + list.get(i).getN_name() + "\t" + list.get(i).getN_price());
 			}
