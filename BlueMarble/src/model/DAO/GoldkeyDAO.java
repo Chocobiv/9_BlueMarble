@@ -115,4 +115,17 @@ public class GoldkeyDAO {
 		return false;
 	}
 
+	// 수현 - 황금열쇠 초기화
+	public boolean resetGoldKey() {
+		String sql="update gold_key set c_use=0 ,p_no=null";
+		try {
+			ps=con.prepareStatement(sql);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {System.out.println("황금열쇠 초기화 오류 " +e);}
+		return false;
+	}
+	
+	
+	
 }

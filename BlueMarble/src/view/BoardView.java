@@ -8,9 +8,11 @@ import model.DTO.NationDTO;
 
 //유정 - 부루마블 판 출력
 public class BoardView {
-
+	PlayerController pCon = new PlayerController();
+	int whoIsTurn = 1;
+	
    public void showBoard() {
-
+	   whoIsTurn = pCon.getWhoIsTurn();
       NationController nCon = new NationController();
       PlayerController pCon = new PlayerController();
       // DB에서 nation 가져와서 각 판에 출력 [R]
@@ -26,8 +28,10 @@ public class BoardView {
       ArrayList<NationDTO> n = nCon.getNations();
       
       //비아 - 플레이어 위치에 따른 말 위치 변경 구현
-      int player1_location = pCon.getLocation(1);
-      int player2_location = pCon.getLocation(2);
+      int player1_location = 1;
+      int player2_location = 2;
+      if(whoIsTurn%2==1) {player1_location = pCon.getLocation(whoIsTurn);}
+      if(whoIsTurn%2==0) {player2_location = pCon.getLocation(whoIsTurn);}
       String[] player1_piece = {"  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  ","  "};
       for(int i=0;i<20;i++) {
          if(i == player1_location-1) {

@@ -11,6 +11,7 @@ import controller.PlayerController;
 import model.DAO.GoldkeyDAO;
 import model.DTO.GoldkeyDTO;
 import model.DTO.NationDTO;
+import model.DTO.PlayerDTO;
 
 //메인 뷰 클래스
 public class MainView {
@@ -53,12 +54,14 @@ public class MainView {
 
 			count++;
 			pCon.changeTurn(whoIsTurn); // 현재 턴인 플레이어 교체
+			offPlayer(); // 지워야함!!
 
 		}
 		// 승자 알려주기
-
-		// 플레이어 삭제
-		deleteP();
+		
+		//게임종료
+		offPlayer();
+		
 	}
 
 	// 비아(9/29) - 2. 플레이어 등록 메소드 - 플레이어 이름 입력받아서 DB에 저장 [C]
@@ -87,9 +90,9 @@ public class MainView {
 	int rollDice() {
 		// 1~6의 숫자 중 랜덤한 정수 반환
 		// 숫자만 보여주기
-		if (whoIsTurn == 1)
+		if (whoIsTurn%2==1)
 			System.out.println("안내) 🐶🏴 " + pCon.getPlayerInfo(whoIsTurn).getP_name() + " 님의 차례입니다.");
-		else if (whoIsTurn == 2)
+		else if (whoIsTurn%2==0)
 			System.out.println("안내) 🐹🏳 " + pCon.getPlayerInfo(whoIsTurn).getP_name() + " 님의 차례입니다.");
 
 		System.out.print("안내) 주사위 굴립니다");
@@ -392,7 +395,7 @@ public class MainView {
 		}
 
 	}
-
+	// 수현 10/5 수정!!
 	// 수현 - 17. 땅 매각 메소드 [U]
 	void saleLand(int player, int n_no) {
 		// 황금열쇠때문에 금액을 지급해야할 때, 통행료 지불해야할 때 현재 보유 자산에서 지불금액을 차감했을 때 그 금액이 0미만이면
@@ -403,6 +406,7 @@ public class MainView {
 		// 소유한 땅 없음 -> 게임 종료 메소드 넣어야함!!
 		if (list.size() == 0) {
 			System.out.println("안내) 매각 가능한 땅이 없습니다. 패배하셨습니다.");
+			offPlayer();
 			return; // 게임 종료 메소드 deleteP() 요건가??
 		}
 		try {// 요거 어떻게 써야 번호를 다시 선택하게 할수있을까...//while문을 써야하나...
@@ -425,16 +429,38 @@ public class MainView {
 		}
 	}
 
-	// 비아(9/29) - 18. 전체 플레이어 삭제 메소드 [D]
-	void deleteP() {
-		// 게임 종료 후 '게임이 종료되었습니다. 승자는 ~님입니다.' 플레이어 삭제
-		System.out.println("게임이 종료되었습니다. 승자는 ~님입니다.");
-		boolean result = pCon.deleteP();
-		if (result)
-			System.out.println("안내) 플레이어 삭제 성공\n");
-		else
-			System.out.println("안내) 플레이어 삭제 실패\n");
+	//수현 - 플레이어 삭제!
+	void offPlayer() {
+		System.out.print("게임종료? 1:네 2:아니오"); int ch=sc.nextInt();
+		if(ch==1) {
+		ArrayList<PlayerDTO> list=pCon.offPlayerMoney();
+		System.out.println("안내) 게임이 종료됐습니다.");
+		System.out.println("안내) 남은 자산을 비교합니다.");
+		PlayerDTO dto1 = list.get(0);
+		PlayerDTO dto2 = list.get(1);
+		System.out.println(dto1.getP_name()+"   :   "+dto1.getP_money());
+		System.out.println(dto2.getP_name()+"   :   "+dto2.getP_money());	
+		
+		if(dto1.getP_money() > dto2.getP_money()) {System.out.println(dto1.getP_name()+"이가 이겼습니다.");}
+		else if(dto1.getP_money() < dto2.getP_money()) {System.out.println(dto2.getP_name()+"이가 이겼습니다.");}
+		
+		//소유자 초기화
+		nCon.resetLand();
+		// 황금열쇠 초기화 
+		gCon.resetGoldKey();
+		
+		boolean result=pCon.offPlayer();
+		if(result) {
+			System.out.println("정상적으로 초기화 완료");
+			play();
+		}
+		else {System.out.println("초기화 문제있음");}
+		}
+		
 	}
+
+
+	
 
 }
 //** DB **

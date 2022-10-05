@@ -8,6 +8,7 @@ public class PlayerDTO {
 	private int p_money;
 	private int p_turn;
 	private int b_no;
+	private int p_switch;
 	
 	public PlayerDTO() {}
 
@@ -18,6 +19,16 @@ public class PlayerDTO {
 		this.p_money = p_money;
 		this.p_turn = p_turn;
 		this.b_no = b_no;
+	}
+	
+	public PlayerDTO(int p_no, String p_name, int p_money, int p_turn, int b_no, int p_switch) {
+		super();
+		this.p_no = p_no;
+		this.p_name = p_name;
+		this.p_money = p_money;
+		this.p_turn = p_turn;
+		this.b_no = b_no;
+		this.p_switch = p_switch;
 	}
 
 	public int getP_no() {
@@ -59,5 +70,15 @@ public class PlayerDTO {
 	public void setB_no(int b_no) {
 		this.b_no = b_no;
 	}
+
+	public int getP_switch() {
+		return p_switch;
+	}
+
+	public void setP_switch(int p_switch) {
+		this.p_switch = p_switch;
+	}
+	
+	
 	
 }

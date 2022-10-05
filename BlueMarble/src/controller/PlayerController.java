@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.DAO.NationDAO;
 import model.DAO.PlayerDAO;
@@ -106,4 +107,14 @@ public class PlayerController {
 		return PlayerDAO.getInstance().deleteP();
 	}
 
+	// 수현 - 플레이어 off 변경 로직
+	public boolean offPlayer() {
+		return PlayerDAO.getInstance().offPlayer();
+	}
+	
+	// 수현- 게임 종료시 플레이어 자산 확인
+	public ArrayList<PlayerDTO> offPlayerMoney(){
+		return PlayerDAO.getInstance().offPlayerMoney();
+	}
+	
 }

@@ -156,4 +156,16 @@ public class NationDAO {
 		return count;
 	}
 	
+	// 수현 - 땅 소유자 초기화
+	public boolean resetLand() {
+		String sql="update nation set p_no=null";
+		try {
+			ps=con.prepareStatement(sql);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) { System.out.println("경고) 소유자 초기화 오류 " + e); }
+		return false;
+	}
+	
+	
 }

@@ -58,4 +58,9 @@ public class NationController {
 		return NationDAO.getInstance().countPlayerLand(player);
 	}
 		
+	// 수현- 땅 소유자 초기화
+	public boolean resetLand() {
+		return NationDAO.getInstance().resetLand();
+	}
+	
 }

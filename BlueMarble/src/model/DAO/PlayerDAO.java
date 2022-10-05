@@ -2,6 +2,7 @@ package model.DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.DTO.NationDTO;
 import model.DTO.PlayerDTO;
@@ -24,10 +25,12 @@ public class PlayerDAO {
 	public static PlayerDAO getInstance() {
 		return dao;
 	}
-
+	
+	
+	//수현 - 필드 추가때문에 values 수정
 	// 비아(9/29) - 플레이어 등록 메소드
 	public boolean addPlayer(String name, int p_turn) {
-		String sql = "insert into player values(null,?,600000,?,1)"; // SQL 작성
+		String sql = "insert into player values(null,?,600000,?,1,1)"; // SQL 작성
 		try {
 			ps = con.prepareStatement(sql); // SQL 연결/조작
 			ps.setString(1, name);
@@ -39,7 +42,7 @@ public class PlayerDAO {
 		}
 		return false;
 	}
-
+	
 	// 비아(10/04) - 플레이어 정보 가져오는 메소드
 	public PlayerDTO getPlayerInfo(int player) {
 		String sql = "select * from player where p_no = ?";
@@ -57,10 +60,10 @@ public class PlayerDAO {
 		}
 		return dto;
 	}
-
+	//수현 - 필드 추가때문에 and p_switch=1 추가!
 	// 비아(9/29) - 누구 턴인지 가져오는 로직
-	public int getWhoIsTurn() {
-		String sql = "select p_no from player where p_turn = 0";
+	public int getWhoIsTurn() {//p_switch=0이면 off 1이면 on
+		String sql = "select p_no from player where p_turn = 0 and p_switch=1";
 		int result = 0;
 		try {
 			ps = con.prepareStatement(sql);
@@ -74,7 +77,8 @@ public class PlayerDAO {
 		}
 		return result;
 	}
-
+	
+	
 	// 비아(9/29) - 플레이어의 현재 위치 가져오는 메소드
 	public int getLocation(int player) {
 		String sql = "select b_no from player where p_no = ?"; // SQL 작성
@@ -319,4 +323,34 @@ public class PlayerDAO {
 		}
 		return false;
 	}
+	
+	// 수현 - 플레이어 off 변경
+	public boolean offPlayer() {
+		String sql="update player set p_switch=0 where p_switch=1";
+		try {
+			ps=con.prepareStatement(sql);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {System.out.println("플레이어 off 변경 오류 " +e);}
+		return false;
+	}
+	
+	// 수현 - 게임종료시 플레이어들 자산 가져오기
+	public ArrayList<PlayerDTO> offPlayerMoney() {
+		String sql="select p_name,p_money from player where p_switch=1";
+		ArrayList<PlayerDTO> list= new ArrayList<>();
+		try {
+			ps=con.prepareStatement(sql);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				PlayerDTO dto=new PlayerDTO();
+				dto.setP_name(rs.getString(1));
+				dto.setP_money(rs.getInt(2));
+				list.add(dto);
+			}
+			return list;
+		} catch (Exception e) {System.out.println("플레이어 off 자산 오류 " +e);}
+		return list;
+	}
+	
 }

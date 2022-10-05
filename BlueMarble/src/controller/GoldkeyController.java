@@ -122,4 +122,10 @@ public class GoldkeyController {
 	boolean escapeFail(int player) {
 		return false;
 	}
+	
+	//수현 - 황금열쇠 초기화
+	public boolean resetGoldKey() {
+		return GoldkeyDAO.getInstance().resetGoldKey();
+	}
+	
 }
