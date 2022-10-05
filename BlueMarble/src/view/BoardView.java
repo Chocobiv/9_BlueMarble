@@ -12,7 +12,7 @@ public class BoardView {
 	int whoIsTurn = 1;
 	
    public void showBoard() {
-	   whoIsTurn = pCon.getWhoIsTurn();
+	  whoIsTurn = pCon.getWhoIsTurn();
       NationController nCon = new NationController();
       PlayerController pCon = new PlayerController();
       // DB에서 nation 가져와서 각 판에 출력 [R]
