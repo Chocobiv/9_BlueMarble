@@ -81,14 +81,14 @@ public class PlayerController {
 		return PlayerDAO.getInstance().getPlayerLand(player);
 	}
 
+	// 유정,수현 - 무인도에 도착하면 무인도테이블에 업데이트
+	public boolean moveDesertIsland(int player) {
+		return PlayerDAO.getInstance().moveDesertIsland(player);
+	}
+
 	// 유정 - 무인도 탈출 성공
 	public boolean escapeDesertIsland(int player) {
 		return PlayerDAO.getInstance().escapeDesertIsland(player);
-	}
-
-	// 유정 - 무인도 탈출 실패
-	public boolean escapeDesertIsland2(int player) {
-		return PlayerDAO.getInstance().escapeDesertIsland2(player);
 	}
 
 	// 유정 - 무인도인지 확인
@@ -96,9 +96,9 @@ public class PlayerController {
 		return PlayerDAO.getInstance().Island(player);
 	}
 
-	// 유정 - 무인도에 같혀있기
-	public boolean donotmove(int player) {
-		return PlayerDAO.getInstance().donotmove(player);
+	// 유정,수현 - 무인도에 몇턴 갇혔는지 확인
+	public int getwatingturn(int player) {
+		return PlayerDAO.getInstance().getwatingturn(player);
 	}
 
 	// 비아 - 전체 플레이어 삭제 로직

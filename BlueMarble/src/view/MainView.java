@@ -22,7 +22,7 @@ public class MainView {
 	Scanner sc = new Scanner(System.in); // 입력 객체
 	// **플레이어1부터 시작**
 	int whoIsTurn = 1; // p_turn이 0인 p_no을 저장하는 변수 = p_no = player
-	int count = 0; // 전체 턴 수(30 초과시 게임 종료)
+	int count = 0; // 전체 턴 수(50 초과시 게임 종료)
 	int player1Pause = 0; // 플레이어1의 무인도에 갖힌 턴
 	int player2Pause = 0; // 플레이어2의 무인도에 갖힌 턴
 	int move_b_no = 1; // 나온 주사위만큼 이동한 현재 위치
@@ -33,16 +33,23 @@ public class MainView {
 		// goldKeyList(whoIsTurn);
 		// 플레이어 등록
 		addPlayer();
-		while (count != 31) { // count에 따라서 무한반복 종료
+		while (count != 51) { // count에 따라서 무한반복 종료
 			whoIsTurn = pCon.getWhoIsTurn();
 			// 부루마블 판 출력
 			new BoardView().showBoard();
 			// 주사위
 			int dice = rollDice();
 			// 말 이동
-			move(whoIsTurn, dice); // 턴인 플레이어를 주사위만큼 이동
-
-			isExistLandlord(whoIsTurn, move_b_no);
+			// 해당 플레이어가 무인도에 없으면 if문 안 메소드 실행
+			int w_turn = pCon.getwatingturn(whoIsTurn);
+			// w_turn이 -1이면 무인도테이블 자체에 p_no이 없음! -> 무인도에 없음!
+			if (w_turn < 0) { //
+				move(whoIsTurn, dice); // 턴인 플레이어를 주사위만큼 이동
+				isExistLandlord(whoIsTurn, move_b_no);
+			} else if (w_turn > 0) {// 무인도에서 나오는 차례에도 일단은 여기를 통과해서 탈출하는 루트라 w_turn을 3으로 설정해줘야함!!
+				Island(whoIsTurn); // 무인도감금횟수 차감
+				escapeDesertIsland(whoIsTurn, dice);
+			}
 
 			count++;
 			pCon.changeTurn(whoIsTurn); // 현재 턴인 플레이어 교체
@@ -310,31 +317,43 @@ public class MainView {
 		}
 	}// getGoldKey end
 
-	// 예은 - 14. 무인도 메소드 - 2턴 쉼 [U]
+	// 유정,수현 - 14. 무인도 메소드 - 2턴 쉼 [U]
 	void moveDesertIsland(int player) {
-
-	}
-
-	// 유정 - 15. 무인도 탈출 성공 메소드 - 주사위가 6이 나오면 탈출, 아니면 쉬는 턴 -1 [U]
-	void escapeDesertIsland(int player) {
-		boolean result = pCon.escapeDesertIsland(player);
-		System.out.println("안내) 무인도에서 탈출합니다.");
-	}
-
-	// 유정 - 15 - 2 무인도 탈출 실패 메소드
-	void escapeDesertIsland2(int player) {
-		boolean result = pCon.escapeDesertIsland2(player);
-		System.out.println("안내) 무인도탈출 실패");
-	}
-
-	// 유정 - 15-1 무인도인지 확인 메소드
-	void Island(int player) { // 어디에 넣어도 플레이어0이 등장하며 겜이 오류나서 테스트 못해봤습니다..그리고 매개변수 player안떠서 1이나 2 했었어용
-		System.out.println("무인도 확인" + player);
-		boolean result = pCon.Island(player);
-		if (result == true) {
+		// player 받아서 DB 무인도테이블에 w_no=2
+		boolean result = pCon.moveDesertIsland(player); // 무인도 테이블에 업데이트
+		if (result) {
 			System.out.println("안내) 무인도에 도착했습니다.");
 			System.out.println("안내) 지금부터 2턴을 쉬어야하며, 주사위가 6이 나올 경우 탈출 가능합니다.");
+		} else {
+			System.out.println("무인도 감금에 문제가 생겼습니다.");
 		}
+	}
+
+	// 유정,수현 - 해당 플레이어가 무인도에 갇혀있는지 확인 메소드
+	void Island(int player) {
+		// DB 무인도테이블에 p_no있는 애한테 w_no= 1차감 /true면 무인도 false면 무인도아님
+		boolean result = pCon.Island(player); // w_turn 차감
+		if (result) {
+			System.out.println("안내) 무인도 감금 횟수 차감됐습니다.");
+		} else {
+			System.out.println("무인도 횟수 차감 문제있음");
+		}
+	}
+
+	// 유정,수현 - 15. 무인도 탈출 메소드
+	// w_turn이 0이면 바로 탈출
+	// 주사위 6이면 탈출
+	void escapeDesertIsland(int player, int dice) {
+		int w_turn = pCon.getwatingturn(player);
+		if (w_turn == 0 || dice == 6) { // 2턴 갇혀있었거나
+			boolean result = pCon.escapeDesertIsland(player); // 무인도 테이블에서 플레이어 삭제
+			if (result) {
+				System.out.println("안내) 무인도 탈출에 성공했습니다.");
+				move(whoIsTurn, dice); // 턴인 플레이어를 주사위만큼 이동
+				isExistLandlord(whoIsTurn, move_b_no);
+			}
+		}
+
 	}
 
 	// 수현 - 16. 올림픽 개최 메소드 [U]-
