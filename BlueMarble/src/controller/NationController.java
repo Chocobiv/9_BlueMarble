@@ -62,6 +62,11 @@ public class NationController {
 	public int countPlayerLand(int player) {
 		return NationDAO.getInstance().countPlayerLand(player);
 	}
+	
+	// 비아 - 플레이어가 소유한 땅의 땅가격 총합 로직
+	public int sumPlayerLand(int player) {
+		return NationDAO.getInstance().sumPlayerLand(player);
+	}
 		
 	// 수현- 땅 소유자 초기화
 	public boolean resetLand() {
