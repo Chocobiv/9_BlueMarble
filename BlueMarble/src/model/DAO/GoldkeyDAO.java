@@ -74,7 +74,9 @@ public class GoldkeyDAO {
 				result = rs.getInt(1);
 				return result; // 사용 안했으면 0
 			}
-		} catch (Exception e) { System.out.println("경고) tf 실패 : " + e); }
+		} catch (Exception e) {
+			System.out.println("경고) tf 실패 : " + e);
+		}
 		return result; // 사용했으면 -1
 	}
 
