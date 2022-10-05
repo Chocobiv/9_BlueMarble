@@ -1,13 +1,10 @@
-# 9_BlueMarble
-9월 팀플 부루마블 프로젝트
 
 ✈**Console Blue Marble**✈
 
-🎲콘솔로 구현하는 부루마블 게임🎲
+<br>콘솔로 구현하는 부루마블 게임<br><br>
 
 
-<details><summary>게임설명
-</summary>
+<details><summary>🎲게임설명🎲</summary>
 
 총 20칸으로 이루어져 있으며 한 턴씩 주사위를 던져 나온수만큼 이동이 가능
 이동한 땅의 주인이 없을 경우엔 땅 구매가 가능하고, 주인이 있을 경우엔 주인에게 금액 지불
@@ -19,10 +16,10 @@
 
 
 
-<details><summary>프로젝트 주제 선정 이유
-</summary>
+<details><summary>✏️프로젝트 주제 선정 이유✏️</summary>
 
-**콘솔**로 구현하는 프로젝트는 화면이 단순해 몰입도가 떨어진다고 생각해 최대한 흥미를 끌 수 있는 주제라고 생각되는 게임으로 선택했으며,
+데이터베이스를 배우면서 이 부분을 적극활용한 프로젝트를 진행하고 싶었고 그런 주제로는 게임이 가장 적합하다고 생각되어 선택하게 되었음.
+게임중에서도 부루마블이 콘솔로 충분히 구현할 수 있다고 생각되었음. **콘솔**로 구현하는 프로젝트는 화면이 단순해 몰입도가 떨어진다고 생각해 최대한 흥미를 끌 수 있는 주제라고 생각되는 게임으로 선택했으며,
 콘솔에 출력될때도 글만 보이는것보다 게임판이 구현돼야 흥미롭다고 생각되어 매 판마다 게임판이 출력되고, 말이 이동하도록 구현했음.
 아날로그 게임처럼 주사위가 굴러가는 시간을 추가해줬으며, **기존 게임에 있던 황금열쇠 , 무인도 , 올림픽 등 여러가지 기능을 구현했음.**
 </details>
@@ -118,8 +115,7 @@ MVC 제작
 |	           |무인도 탈출 실패 메소드              |
 </details>
 
-<details><summary>개인일정 최예은
-</summary>
+<details><summary>개인일정 최예은</summary>
 
 | 날짜 | 개발기능 |
 | --- | --- |
@@ -136,6 +132,47 @@ MVC 제작
 </details>
 
 
+<details><summary>📌주요기능📌</summary>
+
+<details><summary>1. 황금열쇠🗝️</summary>
+
+총 10개의 황금열쇠가 있으며 아래표처럼 제작되었다.<br><br>
+| 이름 | 내용 |
+| --- | --- |
+|정기종합소득세|땅 구매한것당 3만씩 지불|
+|방범비|땅 구매한것당 1만씩 지불|
+|통행권|1회 통행료 패스|
+|뒤로 이동|뒤로 두칸 이동|
+|고속도로|출발지로 이동
+|복권당첨|20만원 당첨|
+|생일축하|다른 플레이어에게 10만원 받기|
+|해외유학|10만원 차감|
+|기지강탈|상대방이 소유한 땅 무효화|
+|무인도 탈출권|1회 사용가능|<br>
+
+황금열쇠는 아래와 같은 알고리즘으로 진행된다.<br>
+
+<img src="https://user-images.githubusercontent.com/110512929/193983375-09b3a9e2-3b72-4ca3-a91a-f348f7b4a8b9.png" width="700" height="600">
+<details><summary>2. 올림픽🥇</summary>
+
+올림픽에 도착한 플레이어는 자신이 소유한 땅 중 하나의 **통행료를 2배로** 올릴 수 있다.<br>
+이 효과는 다른 사람이 올림픽을 열기전까지 지속되며 가장 비싼 통행료를 얻을 수 있는 경우는<br>
+**제주도, 부산, 서울**로 기존 10만원의 2배 **20만원**의 통행료를 걷을 수 있다.
+</details>
+
+<details><summary>3. 무인도🏝️</summary>
+
+무인도에 도착하게 되면 주사위를 굴려 탈출시도를 할 수 있다.<br><br>
+(1) 주사위를 굴려 6이 나온 경우( 2번 굴릴 수 있음 )<br>
+(2) 주사위가 6이 나오지 않고 상대방이 2번 주사위를 굴렸을 경우<br><br>
+
+무인도에 갇히게 되면 직접적인 손해는 없지만 내가 **무인도에 갇혀 있는 동안** 상대방이 땅을 사거나 완주를 할 경우 결과적으로는 손해가 생기는 상황이기 때문에 무인도에 갇히지 않길 바라거나 황금열쇠 중 **무인도 탈출권**을 가지고 있으면 좋다.<br>
+
+</details>
+</details>
+
+
+
 
 
 
@@ -149,4 +186,4 @@ MVC 제작
 ...
 
 
-<img src="https://img.shields.io/badge/sql-4479A1?style=for-the-badge&logo=MYQL&logoColor=#4479A1">   <img src="https://img.shields.io/badge/eclips-2C22551?style=for-the-badge&logo=EclipsIDE&logoColor=#2C2255">
+<img src="https://img.shields.io/badge/sql-4479A1?style=for-the-badge&logo=MYQL&logoColor=#4479A1">   <img src="https://img.shields.io/badge/eclips-2C22551?style=for-the-badge&logo=EclipsIDE&logoColor=#2C2255">   <img src="https://img.shields.io/badge/JAVA-EF2D5E?style=for-the-badge&logo=JAVA&logoColor=#EF2D5E">
