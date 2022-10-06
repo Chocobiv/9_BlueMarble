@@ -152,7 +152,8 @@ MVC 제작
 
 황금열쇠는 아래와 같은 알고리즘으로 진행된다.<br>
 
-<img src="https://user-images.githubusercontent.com/110512929/193983375-09b3a9e2-3b72-4ca3-a91a-f348f7b4a8b9.png" width="700" height="600">
+
+<img src="https://user-images.githubusercontent.com/110512929/193983375-09b3a9e2-3b72-4ca3-a91a-f348f7b4a8b9.png" width="700" height="600"></details>
 <details><summary>2. 올림픽🥇</summary>
 
 올림픽에 도착한 플레이어는 자신이 소유한 땅 중 하나의 **통행료를 2배로** 올릴 수 있다.<br>
@@ -169,7 +170,6 @@ MVC 제작
 무인도에 갇히게 되면 직접적인 손해는 없지만 내가 **무인도에 갇혀 있는 동안** 상대방이 땅을 사거나 완주를 할 경우 결과적으로는 손해가 생기는 상황이기 때문에 무인도에 갇히지 않길 바라거나 황금열쇠 중 **무인도 탈출권**을 가지고 있으면 좋다.<br>
 
 </details>
-</details>
 
 
 
@@ -182,8 +182,5 @@ MVC 제작
 
 
 
-핵심 기능
-...
-
-
-<img src="https://img.shields.io/badge/sql-4479A1?style=for-the-badge&logo=MYQL&logoColor=#4479A1">   <img src="https://img.shields.io/badge/eclips-2C22551?style=for-the-badge&logo=EclipsIDE&logoColor=#2C2255">   <img src="https://img.shields.io/badge/JAVA-EF2D5E?style=for-the-badge&logo=JAVA&logoColor=#EF2D5E">
+<br>
+<h4> <img src="https://img.shields.io/badge/MySQL-00758F?style=flat-square&logo=MySQL&logoColor=white"/> <img src="https://img.shields.io/badge/eclipse-2C2255?style=flat-square&logo=eclipse&logoColor=white"/> <img src="https://img.shields.io/badge/git-24292F?style=flat-square&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/JAVA-634533?style=flat-square&logo=Java&logoColor=white"/> </h4>
